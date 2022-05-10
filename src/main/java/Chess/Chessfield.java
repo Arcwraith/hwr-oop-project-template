@@ -1,14 +1,36 @@
 package Chess;
+
 import java.io.PrintStream;
+import java.util.Scanner;
 
 public class Chessfield {
     private final String[][] fieldWithFigure = new String[8][8];
+    private int activePlayer = 1;
 
     public static void main(String[] args) {
         Chessfield application = new Chessfield();
         application.setupFigureArray();
         application.displayFieldWithFigures();
     }
+
+//   public void firstMove(){
+//       Scanner scan = new Scanner(System.in);
+//       System.out.println("Die Großbuchstaben ziehen zuerst." +
+//               "\n Geben Sie erst die Koordinate der zubewegenden Figur ein: ");
+//       String koordFigure = scan.nextLine();
+//       System.out.println("Geben Sie bitte die gewünschten Ziel Koordinaten ihrer Figur ein: ");
+//       String destKoord = scan.nextLine();
+
+//       activePlayer++;
+//   }
+
+    //   public void nextMove(){
+    //       if (activePlayer == 2){
+//
+    //       }else{
+//
+    //       }
+    //   }
 
     public void setupFigureArray() {
         setDefaultValue();
@@ -54,20 +76,30 @@ public class Chessfield {
         }
     }
 
-    public void displayFieldWithFigures() {
+    public PrintStream displayFieldWithFigures() {
+        PrintStream out;
         System.out.println();
         System.out.println(" A  B  C  D  E  F  G  H");
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 System.out.print("|" + fieldWithFigure[i][j] + "|");
             }
-            int sidenote = i +1;
+            int sidenote = i + 1;
             System.out.print(" " + sidenote);
             System.out.println();
         }
+        return out = System.out;
     }
 
     public String[][] getFieldWithFigure() {
         return fieldWithFigure;
+    }
+
+    public void setDisplayedFieldToFieldStatus(ChessfieldStatus statusField){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                statusField.setFieldArray(i,j,fieldWithFigure[i][j]);
+            }
+        }
     }
 }
