@@ -1,7 +1,6 @@
 package ChessTest;
 import Chess.Chessfield;
 import Chess.ChessfieldStatus;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.PrintStream;
@@ -48,5 +47,19 @@ public class ChessfieldTest {
         Chessfield chessfield = new Chessfield();
         String[][] field = new String[8][8];
         assertThat(field).isEqualTo(chessfield.getFieldWithFigure());
+    }
+
+    @Test
+    void test_readInValideLineManually(){
+        Chessfield chessfield = new Chessfield();
+        String row = chessfield.readInValideLine();
+        assertThat("ABCDEFGH").contains(row);
+    }
+    @Test
+    void test_ReadInValideRowManually(){
+        Chessfield chessfield = new Chessfield();
+        int row = chessfield.readInValideRow();
+        boolean isValide = (row >= 0 && row < 8);
+        assertThat(isValide).isTrue();
     }
 }

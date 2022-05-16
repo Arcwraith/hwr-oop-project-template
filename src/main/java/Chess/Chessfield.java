@@ -95,11 +95,42 @@ public class Chessfield {
         return fieldWithFigure;
     }
 
-    public void setDisplayedFieldToFieldStatus(ChessfieldStatus statusField){
+    public void setDisplayedFieldToFieldStatus(ChessfieldStatus statusField) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                statusField.setFieldArray(i,j,fieldWithFigure[i][j]);
+                statusField.setFieldArray(i, j, fieldWithFigure[i][j]);
             }
         }
+    }
+
+    public int readInValideRow() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Geben sie bitte eine Zahl zwischen 1 und 8 für die gewünschte Spalte ein: ");
+        int row = scan.nextInt();
+        boolean isValide = (row > 0 && row <9);
+        while (!isValide) {
+            System.out.println("Geben sie bitte eine Zahl zwischen 1 und 8 für die gewünschte Spalte ein: ");
+            row = scan.nextInt();
+            isValide = (row > 0 && row <9);
+        }
+
+        return row - 1;
+    }
+
+    public String readInValideLine() {
+        boolean isValid = false;
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Geben Sie Bitte eine Buchstaben von A bis H für die Zeile ein: ");
+        String line = scan.nextLine();
+        String abgleich = "ABCDEFGH";
+        isValid = abgleich.contains(line);
+        while (!isValid) {
+            System.out.println("Geben Sie Bitte eine Buchstaben von A bis H für die Zeile ein: ");
+            line = scan.nextLine();
+            if (abgleich.contains(line)) {
+                isValid = true;
+            }
+        }
+        return line;
     }
 }
