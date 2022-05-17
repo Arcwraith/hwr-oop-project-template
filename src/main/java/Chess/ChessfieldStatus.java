@@ -3,11 +3,11 @@ package Chess;
 public class ChessfieldStatus {
     private final String[][] field = new String[8][8];
 
-    public String[][] getFieldArray(){
+    public String[][] getFieldArray() {
         return this.field;
     }
 
-    public void setFieldArray(int xPos, int yPos, String figure){
-            field[yPos][xPos] = figure;
+    public void setFieldArray(int xPos, int yPos, String figure) {
+        field[yPos][xPos] = figure;
     }
 }

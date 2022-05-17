@@ -38,7 +38,8 @@ public class ChessfieldTest {
         assertThat(ps).isEqualTo(compare);
 
         String[][] field = chessfield.getFieldWithFigure();
-        chessfield.setDisplayedFieldToFieldStatus(status);
+
+        chessfield.setDisplayedFieldToFieldStatus(status);    // Could be a Problem
         String[][] statusField = status.getFieldArray();
         assertThat(field).isEqualTo(statusField);
     }
@@ -50,15 +51,29 @@ public class ChessfieldTest {
     }
 
     @Test
-    void test_readInValideLineManually(){
+    void test_readInValideColumnManually(){
         Chessfield chessfield = new Chessfield();
-        String row = chessfield.readInValideLine();
+        String row = chessfield.readInValideColumn();
         assertThat("ABCDEFGH").contains(row);
     }
     @Test
     void test_ReadInValideRowManually(){
         Chessfield chessfield = new Chessfield();
         int row = chessfield.readInValideRow();
+        boolean isValide = (row >= 0 && row < 8);
+        assertThat(isValide).isTrue();
+    }
+
+    @Test
+    void test_readInValideDepartureColumnManually(){
+        Chessfield chessfield = new Chessfield();
+        String row = chessfield.readInValideDepartureColumn();
+        assertThat("ABCDEFGH").contains(row);
+    }
+    @Test
+    void test_ReadInValideDepartureRowManually(){
+        Chessfield chessfield = new Chessfield();
+        int row = chessfield.readInValideDepartureRow();
         boolean isValide = (row >= 0 && row < 8);
         assertThat(isValide).isTrue();
     }
