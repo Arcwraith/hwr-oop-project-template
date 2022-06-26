@@ -4,6 +4,8 @@ import Chess.CheckIfMoveable;
 import Chess.Chessfield;
 import Chess.ChessfieldStatus;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -52,4 +54,17 @@ public class CheckIfMoveableTest {
  //      boolean isValide = moveable.checkIfKoodinatesBelongToActivePlayer("A",1, field.getActivePlayer());
  //      assertThat(isValide).isTrue();
  //  }
+
+    @ParameterizedTest(name = "Test char {0} is upper.")
+    @ValueSource(strings = {"A", "B", "C","D","E","F","G","H"})
+    void test_IsUpper(String ch){
+        CheckIfMoveable check = new CheckIfMoveable();
+        assertThat(check.isUpper(ch)).isTrue();
+    }
+    @ParameterizedTest(name = "Test char {0} is lower.")
+    @ValueSource(strings = {"a", "b", "c","d","e","f","g","h"})
+    void test_IsLower(String ch){
+        CheckIfMoveable check = new CheckIfMoveable();
+        assertThat(check.isUpper(ch)).isFalse();
+    }
 }
