@@ -1,8 +1,6 @@
 package ChessTest;
 
-import Chess.Chessfield;
-import Chess.ChessfieldStatus;
-import Chess.Turm;
+import Chess.*;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -13,7 +11,7 @@ public class TurmTest {
     void test_istZugMoeglichFürTurm() {
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
-        field.setupFigureArray();
+        field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         Turm moveable = new Turm();
         boolean zug1Moeglich = moveable.istZugMoeglichFürTurm(0, 0, 0, 5, 1,  field.getFieldWithFigure());
@@ -39,7 +37,7 @@ public class TurmTest {
     void test_turmSchlaegtGegner() {
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
-        field.setupFigureArray();
+        field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         statusField.setFieldArray(4, 4, "t");//Victim
         statusField.setFieldArray(5, 5, "T");//Victim
@@ -54,7 +52,7 @@ public class TurmTest {
     void test_isMoveValidMove(){
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
-        field.setupFigureArray();
+        field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         Turm moveable = new Turm();
         boolean move1IsValidMove = moveable.istZugMoeglichFürTurm(2, 0, 2, 7, 1,  field.getFieldWithFigure());
@@ -68,5 +66,18 @@ public class TurmTest {
         assertThat(move3IsValidMove).isTrue();
         assertThat(move4IsValidMove).isTrue();
         assertThat(move5IsNotValidMove).isFalse();
+    }
+
+    @Test
+    void testTurmGetPlayer(){
+        WegFrei turm = new Turm();    // 0= not assined, 1= player 1, 2= player 2
+        assertThat(turm.getPlayer()).isEqualTo(0);
+    }
+
+    @Test
+    void testTurmSetPlayer(){
+        WegFrei turm = new Turm();
+        turm.setPlayer(1);
+        assertThat(turm.getPlayer()).isEqualTo(1);
     }
     }

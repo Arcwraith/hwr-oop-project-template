@@ -1,24 +1,21 @@
 package Chess;
 
-public class Bauer {
-
-    public boolean istZugMoeglichFürBauer(int rowOld, int columnOld, int rowNew, int columnNew, int activePlayer, ChessfieldStatus statusField, String[][] fieldWithFigure) {
-        String[][] field = statusField.getFieldArray();
-
+public class Bauer implements WegFrei{
+    private int player =0;
+    @Override
+    public boolean isMoveValidMove(String fieldWithFigure[][],int columnOld, int rowOld , int rowNew, int columnNew, int activePlayer) {
         if (activePlayer == 1) {
-            if ((fieldWithFigure[rowNew][columnNew].equals(" ") && ((rowNew == rowOld +1 && columnNew == columnOld) ||
-                    (hasNotMovedJet(rowOld, columnOld, 1, field) && rowNew == rowOld +2 && columnNew == columnOld))) || bauerSchlaegtGegner(rowOld, columnOld, rowNew, columnNew, 1, fieldWithFigure)) {
+            if (((fieldWithFigure[rowNew][columnNew].equals(" ") && (rowNew == rowOld +1 && columnNew == columnOld)) || (hasNotMovedJet(rowOld, columnOld, 1, fieldWithFigure) && rowNew == rowOld +2 && columnNew == columnOld)) || (bauerSchlaegtGegner(rowOld, columnOld, rowNew, columnNew, 1, fieldWithFigure))) {
                 return true;
             }
         }
         if (activePlayer == 2) {
-            if ((fieldWithFigure[rowNew][columnNew].equals(" ") && ((rowNew == rowOld -1 && columnNew == columnOld) ||
-                    (hasNotMovedJet(rowOld, columnOld, 2, field) && rowNew == rowOld -2 && columnNew == columnOld))) || bauerSchlaegtGegner(rowOld, columnOld, rowNew, columnNew, 2, fieldWithFigure)) {
+            if ((fieldWithFigure[rowNew][columnNew].equals(" ") && ((rowNew == rowOld -1 && columnNew == columnOld)) ||
+                    (hasNotMovedJet(rowOld, columnOld, 2, fieldWithFigure) && rowNew == rowOld -2 && columnNew == columnOld)) || (bauerSchlaegtGegner(rowOld, columnOld, rowNew, columnNew, 2, fieldWithFigure))) {
                 return true;
             }
         }return false;
     }
-
 
     public boolean hasNotMovedJet(int rowOld, int columnOld, int activePlayer, String[][] field) {
         if (activePlayer == 1) {
@@ -54,6 +51,16 @@ public class Bauer {
             }
         }
         return false;
+    }
+
+    @Override
+    public void setPlayer(int player){
+        this.player = player;
+    }
+
+    @Override
+    public int getPlayer(){
+        return this.player;
     }
 }
 

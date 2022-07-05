@@ -1,12 +1,14 @@
 package Chess;
 
 public class Pferd implements WegFrei {
+    private int player =0;
+
     public boolean istZugMoeglichFürPferd(int rowOld, int columnOld, int rowNew, int columnNew, int activePlayer, String fieldWithFigure[][]) {
-        if (activePlayer==1 && isMoveValidMove(fieldWithFigure, columnOld,  rowOld,  rowNew,  columnNew) &&
+        if (activePlayer==1 && isMoveValidMove(fieldWithFigure, columnOld,  rowOld,  rowNew,  columnNew,1) &&
                 fieldWithFigure[rowNew][columnNew].equals(" ") || pferdSchlaegtGegner(rowNew, columnNew, 1, fieldWithFigure)) {
             return true;}
         else {
-            if (activePlayer==2 && isMoveValidMove(fieldWithFigure, columnOld,  rowOld,  rowNew,  columnNew) &&
+            if (activePlayer==2 && isMoveValidMove(fieldWithFigure, columnOld,  rowOld,  rowNew,  columnNew,2) &&
                     fieldWithFigure[rowNew][columnNew].equals(" ") || pferdSchlaegtGegner(rowNew, columnNew, 2, fieldWithFigure)) {
                 return true;}
         }
@@ -33,7 +35,7 @@ public class Pferd implements WegFrei {
     }
 
     @Override
-    public boolean isMoveValidMove(String [][] fieldWithFigure, int columnOld, int rowOld, int rowNew, int columnNew) {
+    public boolean isMoveValidMove(String [][] fieldWithFigure, int columnOld, int rowOld, int rowNew, int columnNew, int activePlayer) {
         if (rowNew == rowOld + 2 && (columnNew == columnOld + 1 || columnNew == columnOld - 1)) {
             return true;
         }
@@ -47,5 +49,15 @@ public class Pferd implements WegFrei {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void setPlayer(int player){
+        this.player = player;
+    }
+
+    @Override
+    public int getPlayer(){
+        return this.player;
     }
 }

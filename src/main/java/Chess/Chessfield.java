@@ -5,20 +5,14 @@ import java.util.Scanner;
 
 public class Chessfield {
     private final String[][] fieldWithFigure = new String[8][8];
+    private final WegFrei[][] figuresOnField = new WegFrei[8][8];
     private int activePlayer = 1;
     private int row, rowNew;
     private String column, columnNew;
-    ChessfieldStatus statusField = new ChessfieldStatus();
 
-    public void main(String[] args) {
-        setupFigureArray();
-        setDisplayedFieldToFieldStatus(statusField);
-        displayFieldWithFigures();
-        //fullfillMoveAndNextPlayersTurn(); // Needs Test
-        //while (!gameNotOver()) {fullfillMoveAndNextPlayersTurn();}
-    }
+    private ChessfieldStatus statusField = new ChessfieldStatus();
 
-    public void setupFigureArray() {
+    public void setupFigureArrays() {
         setDefaultValue();
         setupBlackFigures();
         setupWhiteFigures();
@@ -32,7 +26,7 @@ public class Chessfield {
         }
     }
 
-    public void setupWhiteFigures() {
+    private void setupWhiteFigures() {
         fieldWithFigure[0][0] = "T";
         fieldWithFigure[0][1] = "S";
         fieldWithFigure[0][2] = "L";
@@ -42,12 +36,32 @@ public class Chessfield {
         fieldWithFigure[0][6] = "S";
         fieldWithFigure[0][7] = "T";
 
+        figuresOnField[0][0] = new Turm();
+        figuresOnField[0][1] = new Pferd();
+        figuresOnField[0][2] = new Springer();
+        figuresOnField[0][3] = new Dame();
+        figuresOnField[0][4] = new Koenig();
+        figuresOnField[0][5] = new Springer();
+        figuresOnField[0][6] = new Pferd();
+        figuresOnField[0][7] = new Turm();
+
+        figuresOnField[0][0].setPlayer(1);
+        figuresOnField[0][1].setPlayer(1);
+        figuresOnField[0][2].setPlayer(1);
+        figuresOnField[0][3].setPlayer(1);
+        figuresOnField[0][4].setPlayer(1);
+        figuresOnField[0][5].setPlayer(1);
+        figuresOnField[0][6].setPlayer(1);
+        figuresOnField[0][7].setPlayer(1);
+
         for (int i = 0; i < 8; i++) {
             fieldWithFigure[1][i] = "B";
+            figuresOnField[1][i] =  new Bauer();
+            figuresOnField[1][i].setPlayer(1);
         }
     }
 
-    public void setupBlackFigures() {
+    private void setupBlackFigures() {
         fieldWithFigure[7][0] = "t";
         fieldWithFigure[7][1] = "s";
         fieldWithFigure[7][2] = "l";
@@ -57,13 +71,32 @@ public class Chessfield {
         fieldWithFigure[7][6] = "s";
         fieldWithFigure[7][7] = "t";
 
+        figuresOnField[7][0] = new Turm();
+        figuresOnField[7][1] = new Pferd();
+        figuresOnField[7][2] = new Springer();
+        figuresOnField[7][3] = new Dame();
+        figuresOnField[7][4] = new Koenig();
+        figuresOnField[7][5] = new Springer();
+        figuresOnField[7][6] = new Pferd();
+        figuresOnField[7][7] = new Turm();
+
+        figuresOnField[7][0].setPlayer(2);
+        figuresOnField[7][1].setPlayer(2);
+        figuresOnField[7][2].setPlayer(2);
+        figuresOnField[7][3].setPlayer(2);
+        figuresOnField[7][4].setPlayer(2);
+        figuresOnField[7][5].setPlayer(2);
+        figuresOnField[7][6].setPlayer(2);
+        figuresOnField[7][7].setPlayer(2);
+
         for (int i = 0; i < 8; i++) {
             fieldWithFigure[6][i] = "b";
+            figuresOnField[6][i] = new Bauer();
+            figuresOnField[6][i].setPlayer(2);
         }
     }
 
     public PrintStream displayFieldWithFigures() {
-        PrintStream out;
         System.out.println();
         System.out.println(" A  B  C  D  E  F  G  H");
         for (int i = 0; i < 8; i++) {
@@ -74,7 +107,7 @@ public class Chessfield {
             System.out.print(" " + sidenote);
             System.out.println();
         }
-        return out = System.out;
+        return System.out;
     }
 
     public String[][] getFieldWithFigure() {
@@ -84,7 +117,8 @@ public class Chessfield {
     public void setDisplayedFieldToFieldStatus(ChessfieldStatus statusField) {  //Only Chessfield //Aktualisierung des Statusfields
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                statusField.setFieldArray(i, j, fieldWithFigure[i][j]);
+                statusField.setFieldArray(i, j,this.fieldWithFigure[i][j]);
+                statusField.setWegFreiArray(i,j,this.figuresOnField[i][j]);
             }
         }
     }
@@ -135,6 +169,7 @@ public class Chessfield {
 
     public String readInValideDepartureColumn() {
         Scanner scan = new Scanner(System.in);
+        System.out.println("Spieler " + activePlayer + " ist am Zug.");
         System.out.println("Geben Sie Bitte eine Buchstaben von A bis H für die Ziel-Zeile ein: ");
         columnNew = scan.nextLine();
         String abgleich = "ABCDEFGH";
@@ -149,41 +184,72 @@ public class Chessfield {
         return columnNew;
     }
 
-  //  public void fullfillMoveAndNextPlayersTurn() {    //Test Needed
-  //      CheckIfMoveable checkIfMoveable = new CheckIfMoveable();
-//
-  //      boolean isMoveValide = checkIfMoveable.checkIfKoodinatesBelongToActivePlayer(readInValideColumn(), readInValideRow(), activePlayer, statusField);
-  //      while (!isMoveValide) {  //Figur zu laufen auswählen
-  //          System.out.println("Diese Figur gehört Spieler " + activePlayer + ". Sie können nur mit ihren eigenen Figuren Laufen");
-  //          isMoveValide = checkIfMoveable.checkIfKoodinatesBelongToActivePlayer(readInValideColumn(), readInValideRow(), activePlayer, statusField);
-  //      }
-//
-  //      boolean moveCanBeMade = checkIfMoveable.moveCanBeMade(row, column, readInValideDepartureRow(), readInValideDepartureColumn(), statusField);
-  //      while (!moveCanBeMade) {
-  //          System.out.println("Gewünschter Zug kann nicht ausgeführt werden!");
-  //          moveCanBeMade = checkIfMoveable.moveCanBeMade(row, column, readInValideDepartureRow(), readInValideDepartureColumn(), statusField);
-  //      }
-//
-  //      setDepartureFieldAndClearOldField(checkIfMoveable);
-  //      setDisplayedFieldToFieldStatus(statusField);
-//
-  //      if (activePlayer == 1) {
-  //          activePlayer = 2;
-  //      } else {
-  //          activePlayer = 1;
-  //      }
-  //  }
+   //  public void fullfillMoveAndNextPlayersTurn() {    //Test Needed + checkIfMoveable implementation
+   //      CheckIfMoveable checkIfMoveable = new CheckIfMoveable();
 
-//   public void setDepartureFieldAndClearOldField(CheckIfMoveable checkIfMoveable) { //Test needed
-//       int columnInt = checkIfMoveable.convertLetterToInteger(column);
-//       int columnNewInt = checkIfMoveable.convertLetterToInteger(columnNew);
-//       String figure = fieldWithFigure[row][columnInt];
-//       fieldWithFigure[row][columnInt] = " ";  //Delet Old Position
-//       fieldWithFigure[rowNew][columnNewInt] = figure; //Set New Position
-//       setDisplayedFieldToFieldStatus(statusField);
-//   }
+   //      boolean figureBelongsToPlayer = checkIfMoveable.checkIfKoodinatesBelongToActivePlayer(readInValideColumn(), readInValideRow(), activePlayer, statusField);
+   //      while (!figureBelongsToPlayer) {  //Figur zu laufen auswählen
+   //          System.out.println("Diese Figur gehört Spieler " + getNotActivePlayer(activePlayer) + ". Sie können nur mit ihren eigenen Figuren Laufen");
+   //          figureBelongsToPlayer = checkIfMoveable.checkIfKoodinatesBelongToActivePlayer(readInValideColumn(), readInValideRow(), activePlayer, statusField);
+   //      }
 
-  //  public boolean gameNotOver(){ //Tests needed
-  //      return true;
-  //  }
+   //      boolean moveCanBeMade = checkIfMoveable.moveCanBeMade(row, column, readInValideDepartureRow(), readInValideDepartureColumn(), statusField, this.activePlayer);
+   //      while (!moveCanBeMade) {
+   //          System.out.println("Gewünschter Zug kann nicht ausgeführt werden!");
+   //          moveCanBeMade = checkIfMoveable.moveCanBeMade(row, column, readInValideDepartureRow(), readInValideDepartureColumn(), statusField, this.activePlayer);
+   //      }
+
+   //      setDepartureFieldAndClearOldField();
+   //      setDisplayedFieldToFieldStatus(statusField);
+   //      displayFieldWithFigures();
+   //      switchActivePlayer(activePlayer);
+   //  }
+
+   public void setDepartureFieldAndClearOldField() { //Test needed **NextToImplement**
+       CheckIfMoveable checkIfMoveable = new CheckIfMoveable();
+       int columnInt = checkIfMoveable.convertLetterToInteger(column);
+       int columnNewInt = checkIfMoveable.convertLetterToInteger(columnNew);
+       String figure = fieldWithFigure[row][columnInt];
+       fieldWithFigure[row][columnInt] = " ";  //Delet Old Position
+       fieldWithFigure[rowNew][columnNewInt] = figure; //Set New Position
+       setDisplayedFieldToFieldStatus(statusField);
+   }
+
+    public boolean gameNotOver() {
+        int count = 0;
+        for (String[] strings : fieldWithFigure) {
+            for (int j = 0; j < fieldWithFigure.length; j++) {
+                if (strings[j].equals("K")) {
+                    count++;
+                }
+                if (strings[j].equals("k")) {
+                    count++;
+                }
+            }
+        }
+        return (count == 2);
+    }
+
+    public int getNotActivePlayer(int activePlayer){
+        if(activePlayer == 1){
+            return 2;
+        }
+        return 1;
+    }
+
+    public ChessfieldStatus getStatusField() {
+        return statusField;
+    }
+
+    public void switchActivePlayer(int activePlayer){
+        if (activePlayer == 1) {
+                      this.activePlayer = 2;
+                  } else {
+                      this.activePlayer = 1;
+                  }
+    }
+
+    public int getActivePlayer() {
+        return activePlayer;
+    }
 }

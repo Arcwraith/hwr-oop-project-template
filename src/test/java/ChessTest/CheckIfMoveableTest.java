@@ -37,11 +37,13 @@ public class CheckIfMoveableTest {
     void test_CheckIfKoodinatesBelongToActivePlayer(){
             Chessfield field = new Chessfield();
             ChessfieldStatus statusField = new ChessfieldStatus();
-            field.setupFigureArray();
+            field.setupFigureArrays();
             field.setDisplayedFieldToFieldStatus(statusField);
             CheckIfMoveable moveable = new CheckIfMoveable();
             boolean belongsToP1 = moveable.checkIfKoodinatesBelongToActivePlayer("A",1,1, statusField);
+            boolean dontBelongsToP1 = moveable.checkIfKoodinatesBelongToActivePlayer("A",1,2,statusField);
             assertThat(belongsToP1).isTrue();
+            assertThat(dontBelongsToP1).isFalse();
     }
 
  //  @Test
@@ -55,6 +57,18 @@ public class CheckIfMoveableTest {
  //      assertThat(isValide).isTrue();
  //  }
 
+    @Test
+    void testIsntValideMove(){
+        CheckIfMoveable moveable = new CheckIfMoveable();
+        ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
+        Chessfield chessfield = new Chessfield();
+
+        chessfield.setupFigureArrays();
+        chessfield.setDisplayedFieldToFieldStatus(chessfieldStatus);
+        boolean isValide = moveable.checkIfKoodinatesBelongToActivePlayer("A",1, chessfield.getActivePlayer(),chessfieldStatus);
+
+    }
+
     @ParameterizedTest(name = "Test char {0} is upper.")
     @ValueSource(strings = {"A", "B", "C","D","E","F","G","H"})
     void test_IsUpper(String ch){
@@ -66,5 +80,19 @@ public class CheckIfMoveableTest {
     void test_IsLower(String ch){
         CheckIfMoveable check = new CheckIfMoveable();
         assertThat(check.isUpper(ch)).isFalse();
+    }
+
+    @Test
+    void testMoveCanBeMade(){   //Needs Figures that work
+        Chessfield chessfield = new Chessfield();
+        CheckIfMoveable checkIfMoveable = new CheckIfMoveable();
+        ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
+
+        chessfield.setupFigureArrays();
+        chessfield.setDisplayedFieldToFieldStatus(chessfieldStatus);
+
+        boolean canBeMade = checkIfMoveable.moveCanBeMade(1,"A",2,"A",chessfieldStatus,1); //Bauer move from (1|0) to (2|0)
+        //To work implement playerInt to Figures and dont use String[][] --> Should work
+        assertThat(canBeMade).isTrue();
     }
 }

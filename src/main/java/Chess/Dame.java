@@ -1,12 +1,15 @@
 package Chess;
 
 public class Dame implements WegFrei {
+    private int player =0;
+
     public boolean istZugMoeglichFürDame(int rowOld, int columnOld, int rowNew, int columnNew, int activePlayer, String fieldWithFigure[][]) {
-        if (activePlayer==1 && isMoveValidMove(fieldWithFigure, columnOld,  rowOld,  rowNew,  columnNew) &&
+
+        if (activePlayer==1 && isMoveValidMove(fieldWithFigure, columnOld,  rowOld,  rowNew,  columnNew,1) &&
                 fieldWithFigure[rowNew][columnNew].equals(" ") || dameSchlaegtGegner(rowNew, columnNew, 1, fieldWithFigure)) {
             return true;}
         else {
-            if (activePlayer==2 && isMoveValidMove(fieldWithFigure, columnOld,  rowOld,  rowNew,  columnNew) &&
+            if (activePlayer==2 && isMoveValidMove(fieldWithFigure, columnOld,  rowOld,  rowNew,  columnNew,2) &&
                     fieldWithFigure[rowNew][columnNew].equals(" ") || dameSchlaegtGegner(rowNew, columnNew, 2, fieldWithFigure)) {
                 return true;}
         }
@@ -33,7 +36,7 @@ public class Dame implements WegFrei {
     }
 
     @Override
-    public boolean isMoveValidMove(String [][] fieldWithFigure, int columnOld, int rowOld, int rowNew, int columnNew) {
+    public boolean isMoveValidMove(String [][] fieldWithFigure, int columnOld, int rowOld, int rowNew, int columnNew, int activePlayer) {
         for (int i = 1; i < 8; i++) {
             for (int j = columnOld + 1; j < columnNew; j++) {
                 if (columnNew == columnOld + i && rowNew == rowOld && fieldWithFigure[rowNew][j].equals(" ")) {
@@ -58,5 +61,14 @@ public class Dame implements WegFrei {
 
         }
         return false;
+    }
+
+    @Override
+    public int getPlayer(){
+        return this.player;
+    }
+    @Override
+    public void setPlayer(int player){
+        this.player = player;
     }
 }

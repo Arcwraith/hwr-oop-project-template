@@ -10,17 +10,17 @@ public class DameTest {
     void test_istZugMoeglichFürDame() {
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
-        field.setupFigureArray();
+        field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         Dame moveable = new Dame();
-        boolean zug1Moeglich = moveable.istZugMoeglichFürDame(3, 3, 6, 6, 1,  field.getFieldWithFigure());
-        boolean zug2Moeglich = moveable.istZugMoeglichFürDame(3, 3, 0, 0, 1,  field.getFieldWithFigure());
-        boolean zug3Moeglich = moveable.istZugMoeglichFürDame(3, 3, 6, 0, 1,  field.getFieldWithFigure());
-        boolean zug4Moeglich = moveable.istZugMoeglichFürDame(3, 3, 0, 6, 1,  field.getFieldWithFigure());
-        boolean zug5Moeglich = moveable.istZugMoeglichFürDame(4, 4, 0, 5, 2,  field.getFieldWithFigure());
-        boolean zug6Moeglich = moveable.istZugMoeglichFürDame(4, 4, 7, 7, 2,  field.getFieldWithFigure());
-        boolean zug7Moeglich = moveable.istZugMoeglichFürDame(4, 4, 7, 1, 2,  field.getFieldWithFigure());
-        boolean zug8Moeglich = moveable.istZugMoeglichFürDame(4, 4, 1, 7, 2,  field.getFieldWithFigure());
+        boolean zug1Moeglich = moveable.istZugMoeglichFürDame(3, 3, 6, 6, 1, field.getFieldWithFigure());
+        boolean zug2Moeglich = moveable.istZugMoeglichFürDame(3, 3, 0, 0, 1, field.getFieldWithFigure());
+        boolean zug3Moeglich = moveable.istZugMoeglichFürDame(3, 3, 6, 0, 1, field.getFieldWithFigure());
+        boolean zug4Moeglich = moveable.istZugMoeglichFürDame(3, 3, 0, 6, 1, field.getFieldWithFigure());
+        boolean zug5Moeglich = moveable.istZugMoeglichFürDame(4, 4, 0, 5, 2, field.getFieldWithFigure());
+        boolean zug6Moeglich = moveable.istZugMoeglichFürDame(4, 4, 7, 7, 2, field.getFieldWithFigure());
+        boolean zug7Moeglich = moveable.istZugMoeglichFürDame(4, 4, 7, 1, 2, field.getFieldWithFigure());
+        boolean zug8Moeglich = moveable.istZugMoeglichFürDame(4, 4, 1, 7, 2, field.getFieldWithFigure());
 
         assertThat(zug1Moeglich).isTrue();
         assertThat(zug2Moeglich).isTrue();
@@ -54,13 +54,13 @@ public class DameTest {
     void test_sameSchlaegtGegner() {
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
-        field.setupFigureArray();
+        field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         Dame moveable = new Dame();
         statusField.setFieldArray(6, 6, "b");//Victim
         statusField.setFieldArray(1, 1, "B");//Victim
-        boolean dame1SchlaegtGegner = moveable.istZugMoeglichFürDame(3, 3, 6, 6, 1,  field.getFieldWithFigure());
-        boolean dame2SchlaegtGegner = moveable.istZugMoeglichFürDame(3, 3, 1, 1, 2,  field.getFieldWithFigure());
+        boolean dame1SchlaegtGegner = moveable.istZugMoeglichFürDame(3, 3, 6, 6, 1, field.getFieldWithFigure());
+        boolean dame2SchlaegtGegner = moveable.istZugMoeglichFürDame(3, 3, 1, 1, 2, field.getFieldWithFigure());
         assertThat(dame1SchlaegtGegner).isTrue();
         assertThat(dame2SchlaegtGegner).isTrue();
 
@@ -76,7 +76,7 @@ public class DameTest {
     void test_isMoveValidMove(){
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
-        field.setupFigureArray();
+        field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         Dame moveable = new Dame();
         boolean move1IsValidMove = moveable.istZugMoeglichFürDame(3, 3, 6, 6, 1,  field.getFieldWithFigure());
@@ -102,6 +102,19 @@ public class DameTest {
         assertThat(move8IsValidMove).isTrue();
         assertThat(move9IsValidMove).isTrue();
         assertThat(move10IsNotValidMove).isFalse();
+    }
+
+    @Test
+    void testDameGetPlayer(){
+        WegFrei dame = new Dame();    // 0= not assined, 1= player 1, 2= player 2
+        assertThat(dame.getPlayer()).isEqualTo(0);
+    }
+
+    @Test
+    void testDameSetPlayer(){
+        WegFrei dame = new Dame();
+        dame.setPlayer(1);
+        assertThat(dame.getPlayer()).isEqualTo(1);
     }
 }
 

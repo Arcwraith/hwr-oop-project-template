@@ -1,8 +1,6 @@
 package ChessTest;
 
-import Chess.Chessfield;
-import Chess.ChessfieldStatus;
-import Chess.Pferd;
+import Chess.*;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -13,7 +11,7 @@ public class PferdTest {
     void test_istZugMoeglichFürPferd() {
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
-        field.setupFigureArray();
+        field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         Pferd moveable = new Pferd();
         boolean zug1Moeglich = moveable.istZugMoeglichFürPferd(3, 3, 1, 2, 1,  field.getFieldWithFigure());
@@ -39,7 +37,7 @@ public class PferdTest {
     void test_pferdSchlaegtGegner() {
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
-        field.setupFigureArray();
+        field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         statusField.setFieldArray(4, 4, "b");//Victim
         statusField.setFieldArray(5, 5, "B");//Victim
@@ -54,7 +52,7 @@ public class PferdTest {
     void test_isMoveValidMove(){
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
-        field.setupFigureArray();
+        field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         Pferd moveable = new Pferd();
         boolean move1IsValidMove = moveable.istZugMoeglichFürPferd(2, 0, 3, 2, 1,  field.getFieldWithFigure());
@@ -65,5 +63,18 @@ public class PferdTest {
         assertThat(move3IsValidMove).isTrue();
         assertThat(move4IsValidMove).isTrue();*/
         assertThat(move5IsNotValidMove).isFalse();
+    }
+
+    @Test
+    void testPferdGetPlayer(){
+        WegFrei pferd = new Pferd();    // 0= not assined, 1= player 1, 2= player 2
+        assertThat(pferd.getPlayer()).isEqualTo(0);
+    }
+
+    @Test
+    void testPferdSetPlayer(){
+        WegFrei pferd = new Pferd();
+        pferd.setPlayer(1);
+        assertThat(pferd.getPlayer()).isEqualTo(1);
     }
 }

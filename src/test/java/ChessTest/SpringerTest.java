@@ -1,8 +1,6 @@
 package ChessTest;
 
-import Chess.Chessfield;
-import Chess.ChessfieldStatus;
-import Chess.Springer;
+import Chess.*;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -13,7 +11,7 @@ public class SpringerTest {
     void test_istZugMoeglichFürSpringer() {
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
-        field.setupFigureArray();
+        field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         Springer moveable = new Springer();
         boolean zug1Moeglich = moveable.istZugMoeglichFürSpringer(3, 3, 6, 6, 1,  field.getFieldWithFigure());
@@ -40,7 +38,7 @@ public class SpringerTest {
     void test_springerSchlaegtGegner() {
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
-        field.setupFigureArray();
+        field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         statusField.setFieldArray(6, 6, "b");//Victim
         statusField.setFieldArray(1, 1, "B");//Victim
@@ -55,7 +53,7 @@ public class SpringerTest {
     void test_isMoveValidMove(){
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
-        field.setupFigureArray();
+        field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         Springer moveable = new Springer();
         boolean move1IsValidMove = moveable.istZugMoeglichFürSpringer(3, 3, 6, 6, 1,  field.getFieldWithFigure());
@@ -69,5 +67,18 @@ public class SpringerTest {
         assertThat(move3IsValidMove).isTrue();
         assertThat(move4IsValidMove).isTrue();
         assertThat(move5IsNotValidMove).isFalse();
+    }
+
+    @Test
+    void testSpringerGetPlayer(){
+        WegFrei springer = new Springer();    // 0= not assined, 1= player 1, 2= player 2
+        assertThat(springer.getPlayer()).isEqualTo(0);
+    }
+
+    @Test
+    void testSpringerSetPlayer(){
+        WegFrei springer = new Springer();
+        springer.setPlayer(1);
+        assertThat(springer.getPlayer()).isEqualTo(1);
     }
 }
