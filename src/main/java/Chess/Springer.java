@@ -1,24 +1,22 @@
 package Chess;
 
 public class Springer implements WegFrei {
-    private int player =0;
+    private int player = 0;
 
-    public boolean istZugMoeglichFürSpringer(int rowOld, int columnOld, int rowNew, int columnNew, int activePlayer, String fieldWithFigure[][]) {
-        if (activePlayer==1 && isMoveValidMove(fieldWithFigure, columnOld,  rowOld,  rowNew,  columnNew,1) &&
-                fieldWithFigure[rowNew][columnNew].equals(" ") || springerSchlaegtGegner(rowNew, columnNew, 1, fieldWithFigure)) {
-            return true;}
-        else {
-            if (activePlayer==2 && isMoveValidMove(fieldWithFigure, columnOld,  rowOld,  rowNew,  columnNew,2) &&
-                    fieldWithFigure[rowNew][columnNew].equals(" ") || springerSchlaegtGegner(rowNew, columnNew, 2, fieldWithFigure)) {
-                return true;}
+    public boolean istZugMoeglichFuerSpringer(int rowOld, int columnOld, int rowNew, int columnNew, int activePlayer, String[][] fieldWithFigure) {
+        if (activePlayer == 1 && isMoveValidMove(fieldWithFigure, columnOld, rowOld, rowNew, columnNew, 1) && fieldWithFigure[rowNew][columnNew].equals(" ") || springerSchlaegtGegner(rowNew, columnNew, 1, fieldWithFigure)) {
+            return true;
+        } else {
+            return activePlayer == 2 && isMoveValidMove(fieldWithFigure, columnOld, rowOld, rowNew, columnNew, 2) && fieldWithFigure[rowNew][columnNew].equals(" ") || springerSchlaegtGegner(rowNew, columnNew, 2, fieldWithFigure);
         }
-        return false;
     }
 
 
-    public boolean springerSchlaegtGegner( int rowNew, int columnNew, int activePlayer, String[][] fieldWithFigure) {
+    public boolean springerSchlaegtGegner(int rowNew, int columnNew, int activePlayer, String[][] fieldWithFigure) {
         CheckIfMoveable checkIfMoveable = new CheckIfMoveable();
-        if (fieldWithFigure[rowNew][columnNew].equals(" ")) {return false;}
+        if (fieldWithFigure[rowNew][columnNew].equals(" ")) {
+            return false;
+        }
         if (activePlayer == 1) {
             if (!checkIfMoveable.isUpper(fieldWithFigure[rowNew][columnNew])) {
                 //sind gr0ße Buchstaben
@@ -26,16 +24,14 @@ public class Springer implements WegFrei {
             }
         }
         if (activePlayer == 2) {
-            if (checkIfMoveable.isUpper(fieldWithFigure[rowNew][columnNew])) {
-                //sind kleine Buchstaben
-                return true;
-            }
+            //sind kleine Buchstaben
+            return checkIfMoveable.isUpper(fieldWithFigure[rowNew][columnNew]);
         }
         return false;
     }
 
     @Override
-    public boolean isMoveValidMove(String [][] fieldWithFigure, int columnOld, int rowOld, int rowNew, int columnNew, int activePlayer) {
+    public boolean isMoveValidMove(String[][] fieldWithFigure, int columnOld, int rowOld, int rowNew, int columnNew, int activePlayer) {
         for (int i = 1; i < 8; i++) {
             for (int j = 1; j < i - 1; j++) {
                 if (columnNew == columnOld + i && rowNew == rowOld + i && fieldWithFigure[rowOld + j][columnOld + j].equals(" ")) {
@@ -47,12 +43,12 @@ public class Springer implements WegFrei {
     }
 
     @Override
-    public void setPlayer(int player){
+    public void setPlayer(int player) {
         this.player = player;
     }
 
     @Override
-    public int getPlayer(){
+    public int getPlayer() {
         return this.player;
     }
 

@@ -8,7 +8,10 @@ public class Main {
         field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         field.displayFieldWithFigures();
-        //field.fullfillMoveAndNextPlayersTurn(statusField); // Needs Test +displayUpdatedField
-        //while (!gameNotOver()) {fullfillMoveAndNextPlayersTurn();}
+        field.fullfillMoveAndNextPlayersTurn(statusField);
+
+        while (field.gameNotOver()) {
+            field.fullfillMoveAndNextPlayersTurn(statusField);
+        }
     }
 }

@@ -3,6 +3,7 @@ package ChessTest;
 import Chess.CheckIfMoveable;
 import Chess.Chessfield;
 import Chess.ChessfieldStatus;
+import Chess.WegFrei;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -46,19 +47,8 @@ public class CheckIfMoveableTest {
             assertThat(dontBelongsToP1).isFalse();
     }
 
- //  @Test
- //  void testIsValideMove(){
- //      CheckIfMoveable moveable = new CheckIfMoveable();
- //      ChessfieldStatus fieldStatus = new ChessfieldStatus();
- //      Chessfield field = new Chessfield();
- //      field.setupFigureArray();
- //      field.setDisplayedFieldToFieldStatus(fieldStatus);
- //      boolean isValide = moveable.checkIfKoodinatesBelongToActivePlayer("A",1, field.getActivePlayer());
- //      assertThat(isValide).isTrue();
- //  }
-
     @Test
-    void testIsntValideMove(){
+    void testIsValideMove(){
         CheckIfMoveable moveable = new CheckIfMoveable();
         ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
         Chessfield chessfield = new Chessfield();
@@ -66,6 +56,7 @@ public class CheckIfMoveableTest {
         chessfield.setupFigureArrays();
         chessfield.setDisplayedFieldToFieldStatus(chessfieldStatus);
         boolean isValide = moveable.checkIfKoodinatesBelongToActivePlayer("A",1, chessfield.getActivePlayer(),chessfieldStatus);
+        assertThat(isValide).isTrue();
 
     }
 
@@ -94,5 +85,20 @@ public class CheckIfMoveableTest {
         boolean canBeMade = checkIfMoveable.moveCanBeMade(1,"A",2,"A",chessfieldStatus,1); //Bauer move from (1|0) to (2|0)
         //To work implement playerInt to Figures and dont use String[][] --> Should work
         assertThat(canBeMade).isTrue();
+    }
+
+    @Test
+    void testBelongsToPlayerOne(){
+        Chessfield chessfield = new Chessfield();
+        CheckIfMoveable checkIfMoveable = new CheckIfMoveable();
+        ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
+        chessfield.setupFigureArrays();
+        chessfield.setDisplayedFieldToFieldStatus(chessfieldStatus);
+        WegFrei[][] figures = chessfieldStatus.getWegFreiArray();
+        boolean belongToP1 = checkIfMoveable.belongsToPlayerOne(figures[0][0]);
+        boolean dontBelongToP1 = checkIfMoveable.belongsToPlayerOne(figures[7][7]);
+
+        assertThat(belongToP1).isTrue();
+        assertThat(dontBelongToP1).isFalse();
     }
 }

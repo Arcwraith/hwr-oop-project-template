@@ -8,20 +8,20 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class PferdTest {
 
     @Test
-    void test_istZugMoeglichFürPferd() {
+    void test_istZugMoeglichFuerPferd() {
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
         field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         Pferd moveable = new Pferd();
-        boolean zug1Moeglich = moveable.istZugMoeglichFürPferd(3, 3, 1, 2, 1,  field.getFieldWithFigure());
-        boolean zug2Moeglich = moveable.istZugMoeglichFürPferd(3, 3, 1, 4, 1,  field.getFieldWithFigure());
-        boolean zug3Moeglich = moveable.istZugMoeglichFürPferd(3, 3, 5, 2, 1,  field.getFieldWithFigure());
-        boolean zug4Moeglich = moveable.istZugMoeglichFürPferd(3, 3, 5, 4, 1,  field.getFieldWithFigure());
-        boolean zug5Moeglich = moveable.istZugMoeglichFürPferd(3, 3, 2, 5, 2,  field.getFieldWithFigure());
-        boolean zug6Moeglich = moveable.istZugMoeglichFürPferd(3, 3, 2, 1, 2,  field.getFieldWithFigure());
-        boolean zug7Moeglich = moveable.istZugMoeglichFürPferd(3, 3, 4, 5, 2,  field.getFieldWithFigure());
-        boolean zug8Moeglich = moveable.istZugMoeglichFürPferd(3, 3, 4, 1, 2,  field.getFieldWithFigure());
+        boolean zug1Moeglich = moveable.istZugMoeglichFuerPferd(3, 3, 1, 2, 1,  statusField.getFieldArray());
+        boolean zug2Moeglich = moveable.istZugMoeglichFuerPferd(3, 3, 1, 4, 1,  statusField.getFieldArray());
+        boolean zug3Moeglich = moveable.istZugMoeglichFuerPferd(3, 3, 5, 2, 1,  statusField.getFieldArray());
+        boolean zug4Moeglich = moveable.istZugMoeglichFuerPferd(3, 3, 5, 4, 1,  statusField.getFieldArray());
+        boolean zug5Moeglich = moveable.istZugMoeglichFuerPferd(3, 3, 2, 5, 2,  statusField.getFieldArray());
+        boolean zug6Moeglich = moveable.istZugMoeglichFuerPferd(3, 3, 2, 1, 2,  statusField.getFieldArray());
+        boolean zug7Moeglich = moveable.istZugMoeglichFuerPferd(3, 3, 4, 5, 2,  statusField.getFieldArray());
+        boolean zug8Moeglich = moveable.istZugMoeglichFuerPferd(3, 3, 4, 1, 2,  statusField.getFieldArray());
         assertThat(zug1Moeglich).isTrue();
         assertThat(zug2Moeglich).isTrue();
         assertThat(zug3Moeglich).isTrue();
@@ -42,11 +42,12 @@ public class PferdTest {
         statusField.setFieldArray(4, 4, "b");//Victim
         statusField.setFieldArray(5, 5, "B");//Victim
         Pferd moveable = new Pferd();
-        boolean turm1SchlaegtGegner = moveable.istZugMoeglichFürPferd(2, 3, 4, 4, 1,  field.getFieldWithFigure());
-        boolean turm2SchlaegtGegner = moveable.istZugMoeglichFürPferd(7, 4, 5, 5, 2,  field.getFieldWithFigure());
-        assertThat(turm1SchlaegtGegner).isTrue();
-        assertThat(turm2SchlaegtGegner).isTrue();
-    }//[y=row][x=column]
+        boolean pferd1SchlaegtGegner = moveable.istZugMoeglichFuerPferd(2, 3, 4, 4, 1,  statusField.getFieldArray());
+        boolean pferd2SchlaegtGegner = moveable.istZugMoeglichFuerPferd(7, 4, 5, 5, 2,  statusField.getFieldArray());
+
+        assertThat(pferd1SchlaegtGegner).isTrue();
+        assertThat(pferd2SchlaegtGegner).isTrue();
+    }
 
     @Test
     void test_isMoveValidMove(){
@@ -55,8 +56,8 @@ public class PferdTest {
         field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         Pferd moveable = new Pferd();
-        boolean move1IsValidMove = moveable.istZugMoeglichFürPferd(2, 0, 3, 2, 1,  field.getFieldWithFigure());
-        boolean move5IsNotValidMove = moveable.istZugMoeglichFürPferd(7, 7, 5, 5, 1,  field.getFieldWithFigure());
+        boolean move1IsValidMove = moveable.istZugMoeglichFuerPferd(2, 0, 3, 2, 1,  statusField.getFieldArray());
+        boolean move5IsNotValidMove = moveable.istZugMoeglichFuerPferd(7, 7, 5, 5, 1,  statusField.getFieldArray());
 
         assertThat(move1IsValidMove).isTrue();
         /*assertThat(move2IsValidMove).isTrue();

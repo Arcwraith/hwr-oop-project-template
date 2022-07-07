@@ -14,14 +14,14 @@ public class TurmTest {
         field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         Turm moveable = new Turm();
-        boolean zug1Moeglich = moveable.istZugMoeglichFürTurm(0, 0, 0, 5, 1,  field.getFieldWithFigure());
-        boolean zug2Moeglich = moveable.istZugMoeglichFürTurm(0, 5, 0, 0, 1,  field.getFieldWithFigure());
-        boolean zug3Moeglich = moveable.istZugMoeglichFürTurm(0, 0, 5, 0, 1,  field.getFieldWithFigure());
-        boolean zug4Moeglich = moveable.istZugMoeglichFürTurm(5, 0, 0, 0, 1,  field.getFieldWithFigure());
-        boolean zug5Moeglich = moveable.istZugMoeglichFürTurm(0, 0, 0, 5, 2,  field.getFieldWithFigure());
-        boolean zug6Moeglich = moveable.istZugMoeglichFürTurm(0, 5, 0, 0, 2,  field.getFieldWithFigure());
-        boolean zug7Moeglich = moveable.istZugMoeglichFürTurm(0, 0, 5, 0, 2,  field.getFieldWithFigure());
-        boolean zug8Moeglich = moveable.istZugMoeglichFürTurm(5, 0, 0, 0, 2,  field.getFieldWithFigure());
+        boolean zug1Moeglich = moveable.istZugMoeglichFuerTurm(0, 0, 0, 5, 1,  statusField.getFieldArray());
+        boolean zug2Moeglich = moveable.istZugMoeglichFuerTurm(0, 5, 0, 0, 1,  statusField.getFieldArray());
+        boolean zug3Moeglich = moveable.istZugMoeglichFuerTurm(0, 0, 5, 0, 1,  statusField.getFieldArray());
+        boolean zug4Moeglich = moveable.istZugMoeglichFuerTurm(5, 0, 0, 0, 1,  statusField.getFieldArray());
+        boolean zug5Moeglich = moveable.istZugMoeglichFuerTurm(0, 0, 0, 5, 2,  statusField.getFieldArray());
+        boolean zug6Moeglich = moveable.istZugMoeglichFuerTurm(0, 5, 0, 0, 2,  statusField.getFieldArray());
+        boolean zug7Moeglich = moveable.istZugMoeglichFuerTurm(0, 0, 5, 0, 2,  statusField.getFieldArray());
+        boolean zug8Moeglich = moveable.istZugMoeglichFuerTurm(5, 0, 0, 0, 2,  statusField.getFieldArray());
         assertThat(zug1Moeglich).isTrue();
         assertThat(zug2Moeglich).isTrue();
         assertThat(zug3Moeglich).isTrue();
@@ -42,8 +42,8 @@ public class TurmTest {
         statusField.setFieldArray(4, 4, "t");//Victim
         statusField.setFieldArray(5, 5, "T");//Victim
         Turm moveable = new Turm();
-        boolean turm1SchlaegtGegner = moveable.istZugMoeglichFürTurm(2, 4, 4, 4, 1,  field.getFieldWithFigure());
-        boolean turm2SchlaegtGegner = moveable.istZugMoeglichFürTurm(2, 5, 5, 5, 2,  field.getFieldWithFigure());
+        boolean turm1SchlaegtGegner = moveable.istZugMoeglichFuerTurm(2, 4, 4, 4, 1,  statusField.getFieldArray());
+        boolean turm2SchlaegtGegner = moveable.istZugMoeglichFuerTurm(2, 5, 5, 5, 2,  statusField.getFieldArray());
         assertThat(turm1SchlaegtGegner).isTrue();
         assertThat(turm2SchlaegtGegner).isTrue();
     }//[y=row][x=column]
@@ -55,11 +55,11 @@ public class TurmTest {
         field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         Turm moveable = new Turm();
-        boolean move1IsValidMove = moveable.istZugMoeglichFürTurm(2, 0, 2, 7, 1,  field.getFieldWithFigure());
-        boolean move2IsValidMove = moveable.istZugMoeglichFürTurm(4, 7, 4, 0, 2,  field.getFieldWithFigure());
-        boolean move3IsValidMove = moveable.istZugMoeglichFürTurm(0, 2, 7, 2, 1,  field.getFieldWithFigure());
-        boolean move4IsValidMove = moveable.istZugMoeglichFürTurm(7, 4, 0, 4, 2,  field.getFieldWithFigure());
-        boolean move5IsNotValidMove = moveable.istZugMoeglichFürTurm(7, 7, 5, 5, 1,  field.getFieldWithFigure());
+        boolean move1IsValidMove = moveable.istZugMoeglichFuerTurm(2, 0, 2, 7, 1,  statusField.getFieldArray());
+        boolean move2IsValidMove = moveable.istZugMoeglichFuerTurm(4, 7, 4, 0, 2,  statusField.getFieldArray());
+        boolean move3IsValidMove = moveable.istZugMoeglichFuerTurm(0, 2, 7, 2, 1,  statusField.getFieldArray());
+        boolean move4IsValidMove = moveable.istZugMoeglichFuerTurm(7, 4, 0, 4, 2,  statusField.getFieldArray());
+        boolean move5IsNotValidMove = moveable.istZugMoeglichFuerTurm(7, 7, 5, 5, 1,  statusField.getFieldArray());
 
         assertThat(move1IsValidMove).isTrue();
         assertThat(move2IsValidMove).isTrue();

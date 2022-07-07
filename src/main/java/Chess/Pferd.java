@@ -3,16 +3,14 @@ package Chess;
 public class Pferd implements WegFrei {
     private int player =0;
 
-    public boolean istZugMoeglichFürPferd(int rowOld, int columnOld, int rowNew, int columnNew, int activePlayer, String fieldWithFigure[][]) {
+    public boolean istZugMoeglichFuerPferd(int rowOld, int columnOld, int rowNew, int columnNew, int activePlayer, String[][] fieldWithFigure) {
         if (activePlayer==1 && isMoveValidMove(fieldWithFigure, columnOld,  rowOld,  rowNew,  columnNew,1) &&
                 fieldWithFigure[rowNew][columnNew].equals(" ") || pferdSchlaegtGegner(rowNew, columnNew, 1, fieldWithFigure)) {
             return true;}
         else {
-            if (activePlayer==2 && isMoveValidMove(fieldWithFigure, columnOld,  rowOld,  rowNew,  columnNew,2) &&
-                    fieldWithFigure[rowNew][columnNew].equals(" ") || pferdSchlaegtGegner(rowNew, columnNew, 2, fieldWithFigure)) {
-                return true;}
+            return activePlayer == 2 && isMoveValidMove(fieldWithFigure, columnOld, rowOld, rowNew, columnNew, 2) &&
+                    fieldWithFigure[rowNew][columnNew].equals(" ") || pferdSchlaegtGegner(rowNew, columnNew, 2, fieldWithFigure);
         }
-        return false;
     }
 
 
@@ -26,10 +24,8 @@ public class Pferd implements WegFrei {
             }
         }
         if (activePlayer == 2) {
-            if (checkIfMoveable.isUpper(fieldWithFigure[rowNew][columnNew])) {
-                //sind kleine Buchstaben
-                return true;
-            }
+            //sind kleine Buchstaben
+            return checkIfMoveable.isUpper(fieldWithFigure[rowNew][columnNew]);
         }
         return false;
     }
@@ -45,10 +41,7 @@ public class Pferd implements WegFrei {
         if (columnNew == columnOld + 2 && (rowNew == rowOld + 1 || rowNew == rowOld - 1)) {
             return true;
         }
-        if (columnNew == columnOld - 2 && (rowNew == rowOld + 1 || rowNew == rowOld - 1)) {
-            return true;
-        }
-        return false;
+        return columnNew == columnOld - 2 && (rowNew == rowOld + 1 || rowNew == rowOld - 1);
     }
 
     @Override

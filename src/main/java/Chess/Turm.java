@@ -3,16 +3,14 @@ package Chess;
 public class Turm implements WegFrei {
     private int player =0;
 
-    public boolean istZugMoeglichFürTurm(int rowOld, int columnOld, int rowNew, int columnNew, int activePlayer, String fieldWithFigure[][]) {
+    public boolean istZugMoeglichFuerTurm(int rowOld, int columnOld, int rowNew, int columnNew, int activePlayer, String[][] fieldWithFigure) {
             if (activePlayer==1 && isMoveValidMove(fieldWithFigure, columnOld,  rowOld,  rowNew,  columnNew,1) &&
                     fieldWithFigure[rowNew][columnNew].equals(" ") || turmSchlaegtGegner(rowNew, columnNew, 1, fieldWithFigure)) {
                     return true;}
                 else {
-                if (activePlayer==2 && isMoveValidMove(fieldWithFigure, columnOld,  rowOld,  rowNew,  columnNew,2) &&
-                        fieldWithFigure[rowNew][columnNew].equals(" ") || turmSchlaegtGegner(rowNew, columnNew, 2, fieldWithFigure)) {
-                    return true;}
+                return activePlayer == 2 && isMoveValidMove(fieldWithFigure, columnOld, rowOld, rowNew, columnNew, 2) &&
+                        fieldWithFigure[rowNew][columnNew].equals(" ") || turmSchlaegtGegner(rowNew, columnNew, 2, fieldWithFigure);
             }
-        return false;
     }
 
 
@@ -26,10 +24,8 @@ public class Turm implements WegFrei {
                 }
             }
             if (activePlayer == 2) {
-                if (checkIfMoveable.isUpper(fieldWithFigure[rowNew][columnNew])) {
-                    //sind kleine Buchstaben
-                    return true;
-                }
+                //sind kleine Buchstaben
+                return checkIfMoveable.isUpper(fieldWithFigure[rowNew][columnNew]);
             }
             return false;
         }

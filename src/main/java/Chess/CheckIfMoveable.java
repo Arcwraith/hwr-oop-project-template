@@ -2,18 +2,18 @@ package Chess;
 
 public class CheckIfMoveable {
 
-    public boolean checkIfKoodinatesBelongToActivePlayer(String rowOfField, int column, int activePlayer, ChessfieldStatus statusField) {
-        int row = convertLetterToInteger(rowOfField);
-        String[][] field = statusField.getFieldArray();
+    public boolean checkIfKoodinatesBelongToActivePlayer(String column, int row, int activePlayer, ChessfieldStatus statusField) {
+        //WegFrei[][] figures = statusField.getWegFreiArray();
+        String[][] figuress = statusField.getFieldArray();
         if (activePlayer == 1) {
-            return isUpper(field[row][column]);
+            return (isUpper(figuress[row][convertLetterToInteger(column)]));
 
         } else {
-            return !isUpper(field[row][column]);
+            return !(isUpper(figuress[row][convertLetterToInteger(column)]));
         }
     }
 
-    public boolean moveCanBeMade(int rowOld, String columnOld, int rowNew, String columnNew, ChessfieldStatus statusField, int activePlayer) {    // Figure can move this way, works if all figures are finished
+    public boolean moveCanBeMade(int rowOld, String columnOld, int rowNew, String columnNew, ChessfieldStatus statusField, int activePlayer) {
         WegFrei[][] figuresOnfField = statusField.getWegFreiArray();
         return figuresOnfField[rowOld][convertLetterToInteger(columnOld)].isMoveValidMove(statusField.getFieldArray(), convertLetterToInteger(columnOld), rowOld, rowNew, convertLetterToInteger(columnNew), activePlayer);
     }
@@ -26,4 +26,7 @@ public class CheckIfMoveable {
         return ((int) (s.toCharArray()[0])) - 65;
     }
 
+    public boolean belongsToPlayerOne(WegFrei figure) {    //Is white
+        return (1 == figure.getPlayer());
+    }
 }

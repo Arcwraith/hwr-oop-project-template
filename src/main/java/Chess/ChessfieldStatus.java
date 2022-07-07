@@ -2,7 +2,7 @@ package Chess;
 
 public class ChessfieldStatus {
     private final String[][] field = new String[8][8];
-    private WegFrei [][] fieldOfFigures = new WegFrei[8][8];    //Filed with figures
+    private final WegFrei [][] fieldOfFigures = new WegFrei[8][8];    //Filed with figures
 
     public WegFrei[][] getWegFreiArray(){return this.fieldOfFigures;}   //Ersetzen des field array komplett !
 
@@ -13,7 +13,7 @@ public class ChessfieldStatus {
         return this.field;
     }
 
-    public void setFieldArray(int xPos, int yPos, String figure) {
+    public void setFieldArray(int yPos, int xPos, String figure) {
         field[yPos][xPos] = figure;
     }
 }
