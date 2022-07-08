@@ -7,7 +7,7 @@ public class Main {
         ChessfieldStatus statusField = new ChessfieldStatus();
         field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
-        field.displayFieldWithFigures();
+        field.displayFieldWithFigures(statusField);
         field.fullfillMoveAndNextPlayersTurn(statusField);
 
         while (field.gameNotOver()) {

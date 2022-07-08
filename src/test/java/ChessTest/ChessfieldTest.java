@@ -32,9 +32,6 @@ public class ChessfieldTest {
 
         assertThat(emptyField).isNotEqualTo(setupedField);
         assertThat(second).isNotEqualTo(emptyArray);
-        assertThat(setupedField[0][0].getPlayer()).isEqualTo(1);
-        assertThat(setupedField[7][7].getPlayer()).isEqualTo(2);
-        assertThat(setupedField[5][5]).isEqualTo(null);
     }
 
     @Test
@@ -42,7 +39,7 @@ public class ChessfieldTest {
         Chessfield chessfield = new Chessfield();
         ChessfieldStatus status = new ChessfieldStatus();
 
-        PrintStream ps = chessfield.displayFieldWithFigures();
+        PrintStream ps = chessfield.displayFieldWithFigures(status);
         System.out.println("\n" + " A  B  C  D  E  F  G  H\n" + "|T||S||L||D||K||L||S||T| 1\n" + "|B||B||B||B||B||B||B||B| 2\n" + "| || || || || || || || | 3\n" + "| || || || || || || || | 4\n" + "| || || || || || || || | 5\n" + "| || || || || || || || | 6\n" + "|b||b||b||b||b||b||b||b| 7\n" + "|t||s||l||k||d||l||s||t| 8");
         PrintStream compare = System.out;
         assertThat(ps).isEqualTo(compare);
@@ -192,9 +189,10 @@ public class ChessfieldTest {
     void test_GameNotOver() {
         Chessfield chessfield = new Chessfield();
         Chessfield field = new Chessfield();
+        ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
 
         chessfield.setupFigureArrays();
-        chessfield.displayFieldWithFigures();
+        chessfield.displayFieldWithFigures(chessfieldStatus);
 
         field.setDefaultValue();
 
@@ -223,8 +221,8 @@ public class ChessfieldTest {
         String[][] fieldOld = statusField.getFieldArray();
 
         String a = "A";
-        String row = "1";
-        String rowDeparture = "2";
+        String row = "2";
+        String rowDeparture = "3";
 
         ByteArrayInputStream stream1 = new ByteArrayInputStream(a.getBytes());
         ByteArrayInputStream stream2 = new ByteArrayInputStream(row.getBytes());
@@ -268,8 +266,11 @@ public class ChessfieldTest {
             throw new RuntimeException(e);
         }
 
-        field.setDepartureFieldAndClearOldField(valideRow,valideDepartureRow,valideColumn,valideDepartureColumn, statusField);
-        String[][] fieldNew = statusField.getFieldArray();
+        ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
+
+        field.setDepartureFieldAndClearOldField(valideRow,valideDepartureRow,valideColumn,valideDepartureColumn, chessfieldStatus);
+        String[][] fieldNew = chessfieldStatus.getFieldArray();
+
         assertThat(fieldNew).isNotEqualTo(fieldOld);
     }
 
@@ -354,9 +355,11 @@ public class ChessfieldTest {
     @Test
     void testCheckIfPositionNotNull(){
         Chessfield chessfield = new Chessfield();
+        ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
         chessfield.setupFigureArrays();
-        boolean notNull = chessfield.checkIfPositionNull("A",1);
-        boolean isNull = chessfield.checkIfPositionNull("A",4);
+        chessfield.setDisplayedFieldToFieldStatus(chessfieldStatus);
+        boolean notNull = chessfield.checkIfPositionNull("A",1, chessfieldStatus);
+        boolean isNull = chessfield.checkIfPositionNull("A",4, chessfieldStatus);
 
         assertThat(isNull).isTrue();
         assertThat(notNull).isFalse();
@@ -377,4 +380,18 @@ public class ChessfieldTest {
  //     assertThat(figures).isNotEqualTo(chessfieldStatus.getWegFreiArray());
  //     //assertThat(activePlayer).isEqualTo(chessfield.getActivePlayer());
  // }
+
+ //   @Test
+ //  void testWegFreiToDisplayableFormat(){
+
+ //      Chessfield chessfield = new Chessfield();
+ //      ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
+
+ //      chessfield.setupFigureArrays();
+ //      chessfield.setDisplayedFieldToFieldStatus(chessfieldStatus);
+ //      WegFrei[][]figuresSetuped = chessfieldStatus.getWegFreiArray();
+ //      PrintStream out = chessfield.wegFreiToDisplayableFormat(figuresSetuped);
+
+
+ //  }
 }

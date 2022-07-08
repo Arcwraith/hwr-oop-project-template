@@ -2,6 +2,7 @@ package Chess;
 
 public class Bauer implements WegFrei {
     private int player = 0;
+    private String bezeichnung = "B";
 
     @Override
     public boolean isMoveValidMove(String[][] fieldWithFigure, int columnOld, int rowOld, int rowNew, int columnNew, int activePlayer) {
@@ -55,6 +56,11 @@ public class Bauer implements WegFrei {
     @Override
     public void setPlayer(int player) {
         this.player = player;
+    }
+
+    @Override
+    public String getBezeichnung() {
+        return bezeichnung;
     }
 
     @Override

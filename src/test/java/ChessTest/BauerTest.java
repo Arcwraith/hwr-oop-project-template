@@ -8,7 +8,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.within;
 
 public class BauerTest {
     @Test
-    void test_istZugMoeglichFürBauer() {
+    void test_istZugMoeglichFuerBauer() {
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
         CheckIfMoveable checkIfMoveable = new CheckIfMoveable();
@@ -82,6 +82,12 @@ public class BauerTest {
         WegFrei bauer = new Bauer();
         bauer.setPlayer(1);
         assertThat(bauer.getPlayer()).isEqualTo(1);
+    }
+
+    @Test
+    void testBauerGetBezeichnung(){
+        WegFrei bauer = new Bauer();
+        assertThat(bauer.getBezeichnung()).isEqualTo("B");
     }
 }
 //expected true but is false line 45
