@@ -40,64 +40,66 @@ public class PferdTest {
         ChessfieldStatus statusField = new ChessfieldStatus();
         field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
-        statusField.setFieldArray(4, 4, "b");//Victim
-        statusField.setFieldArray(5, 5, "B");//Victim
+        statusField.setFieldArray(4, 4, "b");
+        statusField.setFieldArray(5, 5, "B");
         Pferd moveable = new Pferd();
 
 
-        boolean pferd1SchlaegtGegner = moveable.pferdSchlaegtGegner(4,4,1,statusField.getFieldArray());
-        boolean pferd2SchlaegtGegner = moveable.pferdSchlaegtGegner(5,5,2,statusField.getFieldArray());
+        boolean move1IsValidMove = moveable.istZugMoeglichFuerPferd(2, 0, 3, 2);
+        boolean move5IsNotValidMove = moveable.istZugMoeglichFuerPferd(7, 7, 5, 5);
+
+        boolean pferd1SchlaegtGegner = moveable.pferdSchlaegtGegner(4, 4, 1, statusField.getFieldArray());
+        boolean pferd2SchlaegtGegner = moveable.pferdSchlaegtGegner(5, 5, 2, statusField.getFieldArray());
 
         statusField.setFieldArray(5, 5, " ");
-        boolean pferd3SchleagtGegner = moveable.pferdSchlaegtGegner(5,5,2,statusField.getFieldArray());
+        boolean pferd3SchleagtGegner = moveable.pferdSchlaegtGegner(5, 5, 2, statusField.getFieldArray());
 
         statusField.setFieldArray(5, 5, "B");
-        boolean willNeverHappen = moveable.pferdSchlaegtGegner(5,5,0, statusField.getFieldArray());
+        boolean willNeverHappen = moveable.pferdSchlaegtGegner(5, 5, 0, statusField.getFieldArray());
 
 
         assertThat(pferd1SchlaegtGegner).isTrue();
         assertThat(pferd2SchlaegtGegner).isTrue();
         assertThat(pferd3SchleagtGegner).isFalse();
         assertThat(willNeverHappen).isFalse();
+        assertThat(move1IsValidMove).isTrue();
+        assertThat(move5IsNotValidMove).isFalse();
     }
 
     @Test
-    void test_isMoveValidMove(){
+    void test_isMoveValidMove() {
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
         field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         Pferd moveable = new Pferd();
 
-        boolean move1IsValidMove = moveable.istZugMoeglichFuerPferd(2,0,3,2);
-        boolean move5IsNotValidMove = moveable.istZugMoeglichFuerPferd(7, 7, 5, 5);
+        statusField.setFieldArray(5, 5, "b");
+        boolean move2IsValideMove = moveable.isMoveValidMove(statusField.getFieldArray(), 5, 5, 3, 4, 1);
+        statusField.setFieldArray(5, 5, "B");
+        boolean move3IsValideMove = moveable.isMoveValidMove(statusField.getFieldArray(), 5, 5, 3, 4, 2);
 
-        statusField.setFieldArray(5,5,"b");
-        boolean move2IsValideMove = moveable.isMoveValidMove(statusField.getFieldArray(),5,5,3,4,1);
-        statusField.setFieldArray(5,5,"B");
-        boolean move3IsValideMove = moveable.isMoveValidMove(statusField.getFieldArray(),5,5,3,4,2);
 
-        assertThat(move1IsValidMove).isTrue();
         assertThat(move2IsValideMove).isTrue();
         assertThat(move3IsValideMove).isTrue();
-        assertThat(move5IsNotValidMove).isFalse();
+
     }
 
     @Test
-    void testPferdGetPlayer(){
-        WegFrei pferd = new Pferd();    // 0= not assined, 1= player 1, 2= player 2
+    void testPferdGetPlayer() {
+        WegFrei pferd = new Pferd();
         assertThat(pferd.getPlayer()).isEqualTo(0);
     }
 
     @Test
-    void testPferdSetPlayer(){
+    void testPferdSetPlayer() {
         WegFrei pferd = new Pferd();
         pferd.setPlayer(1);
         assertThat(pferd.getPlayer()).isEqualTo(1);
     }
 
     @Test
-    void testPferdGetBezeichnung(){
+    void testPferdGetBezeichnung() {
         WegFrei pferd = new Pferd();
         assertThat(pferd.getBezeichnung()).isEqualTo("S");
     }

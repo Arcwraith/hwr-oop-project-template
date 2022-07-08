@@ -3,7 +3,6 @@ package Chess;
 public class CheckIfMoveable {
 
     public boolean checkIfKoodinatesBelongToActivePlayer(String column, int row, int activePlayer, ChessfieldStatus statusField) {
-        //WegFrei[][] figures = statusField.getWegFreiArray();
         String[][] figuress = statusField.getFieldArray();
         if (activePlayer == 1) {
             return (isUpper(figuress[row][convertLetterToInteger(column)]));

@@ -33,13 +33,13 @@ public class Dame implements WegFrei {
                 if (columnNew == columnOld + i && rowNew == rowOld + i && fieldWithFigure[rowOld + j][columnOld + j].equals(" ")) {
                     return true;
                 }
-                if(columnNew == columnOld - i && rowNew == rowOld - i && fieldWithFigure[rowOld - j][columnOld - j].equals(" ")){
+                if (columnNew == columnOld - i && rowNew == rowOld - i && fieldWithFigure[rowOld - j][columnOld - j].equals(" ")) {
                     return true;
                 }
                 if (columnNew == columnOld + i && rowNew == rowOld - i && fieldWithFigure[rowOld + j][columnOld - j].equals(" ")) {
                     return true;
                 }
-                if(columnNew == columnOld - i && rowNew == rowOld + i && fieldWithFigure[rowOld - j][columnOld + j].equals(" ")){
+                if (columnNew == columnOld - i && rowNew == rowOld + i && fieldWithFigure[rowOld - j][columnOld + j].equals(" ")) {
                     return true;
                 }
             }

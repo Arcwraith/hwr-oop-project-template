@@ -12,7 +12,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class CheckIfMoveableTest {
     @Test
-    void testConvertLetterToInteger(){
+    void testConvertLetterToInteger() {
         CheckIfMoveable moveable = new CheckIfMoveable();
 
         int test1 = moveable.convertLetterToInteger("A");
@@ -34,47 +34,49 @@ public class CheckIfMoveableTest {
         assertThat(test8).isEqualTo(7);
     }
 
-    @Test   //Parameterised Test for P1 and P2
-    void test_CheckIfKoodinatesBelongToActivePlayer(){
-            Chessfield field = new Chessfield();
-            ChessfieldStatus statusField = new ChessfieldStatus();
-            field.setupFigureArrays();
-            field.setDisplayedFieldToFieldStatus(statusField);
-            CheckIfMoveable moveable = new CheckIfMoveable();
-            boolean belongsToP1 = moveable.checkIfKoodinatesBelongToActivePlayer("A",1,1, statusField);
-            boolean dontBelongsToP1 = moveable.checkIfKoodinatesBelongToActivePlayer("A",1,2,statusField);
-            assertThat(belongsToP1).isTrue();
-            assertThat(dontBelongsToP1).isFalse();
+    @Test
+        //Parameterised Test for P1 and P2
+    void test_CheckIfKoodinatesBelongToActivePlayer() {
+        Chessfield field = new Chessfield();
+        ChessfieldStatus statusField = new ChessfieldStatus();
+        field.setupFigureArrays();
+        field.setDisplayedFieldToFieldStatus(statusField);
+        CheckIfMoveable moveable = new CheckIfMoveable();
+        boolean belongsToP1 = moveable.checkIfKoodinatesBelongToActivePlayer("A", 1, 1, statusField);
+        boolean dontBelongsToP1 = moveable.checkIfKoodinatesBelongToActivePlayer("A", 1, 2, statusField);
+        assertThat(belongsToP1).isTrue();
+        assertThat(dontBelongsToP1).isFalse();
     }
 
     @Test
-    void testIsValideMove(){
+    void testIsValideMove() {
         CheckIfMoveable moveable = new CheckIfMoveable();
         ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
         Chessfield chessfield = new Chessfield();
 
         chessfield.setupFigureArrays();
         chessfield.setDisplayedFieldToFieldStatus(chessfieldStatus);
-        boolean isValide = moveable.checkIfKoodinatesBelongToActivePlayer("A",1, chessfield.getActivePlayer(),chessfieldStatus);
+        boolean isValide = moveable.checkIfKoodinatesBelongToActivePlayer("A", 1, chessfield.getActivePlayer(), chessfieldStatus);
         assertThat(isValide).isTrue();
 
     }
 
     @ParameterizedTest(name = "Test char {0} is upper.")
-    @ValueSource(strings = {"A", "B", "C","D","E","F","G","H"})
-    void test_IsUpper(String ch){
+    @ValueSource(strings = {"A", "B", "C", "D", "E", "F", "G", "H"})
+    void test_IsUpper(String ch) {
         CheckIfMoveable check = new CheckIfMoveable();
         assertThat(check.isUpper(ch)).isTrue();
     }
+
     @ParameterizedTest(name = "Test char {0} is lower.")
-    @ValueSource(strings = {"a", "b", "c","d","e","f","g","h"})
-    void test_IsLower(String ch){
+    @ValueSource(strings = {"a", "b", "c", "d", "e", "f", "g", "h"})
+    void test_IsLower(String ch) {
         CheckIfMoveable check = new CheckIfMoveable();
         assertThat(check.isUpper(ch)).isFalse();
     }
 
     @Test
-    void testMoveCanBeMade(){   //Needs Figures that work
+    void testMoveCanBeMade() {   //Needs Figures that work
         Chessfield chessfield = new Chessfield();
         CheckIfMoveable checkIfMoveable = new CheckIfMoveable();
         ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
@@ -82,13 +84,12 @@ public class CheckIfMoveableTest {
         chessfield.setupFigureArrays();
         chessfield.setDisplayedFieldToFieldStatus(chessfieldStatus);
 
-        boolean canBeMade = checkIfMoveable.moveCanBeMade(1,"A",2,"A",chessfieldStatus,1); //Bauer move from (1|0) to (2|0)
-        //To work implement playerInt to Figures and dont use String[][] --> Should work
+        boolean canBeMade = checkIfMoveable.moveCanBeMade(1, "A", 2, "A", chessfieldStatus, 1);
         assertThat(canBeMade).isTrue();
     }
 
     @Test
-    void testBelongsToPlayerOne(){
+    void testBelongsToPlayerOne() {
         Chessfield chessfield = new Chessfield();
         CheckIfMoveable checkIfMoveable = new CheckIfMoveable();
         ChessfieldStatus chessfieldStatus = new ChessfieldStatus();

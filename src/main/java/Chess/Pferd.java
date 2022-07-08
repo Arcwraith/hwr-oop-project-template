@@ -29,7 +29,7 @@ public class Pferd implements WegFrei {
                 return true;
             }
         }
-        if (activePlayer == 2){
+        if (activePlayer == 2) {
             return checkIfMoveable.isUpper(fieldWithFigure[rowNew][columnNew]);
         }
         return false;

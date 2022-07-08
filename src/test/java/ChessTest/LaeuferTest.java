@@ -8,26 +8,26 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class LaeuferTest {
 
     @Test
-    void test_istZugMoeglichFuerSpringer() {
+    void test_istZugMoeglichFuerLaeufer() {
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
         field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         Laeufer moveable = new Laeufer();
-        boolean zug1Moeglich = moveable.istZugMoeglichFuerSpringer(3, 3, 6, 6,statusField.getFieldArray());
-        boolean zug2Moeglich = moveable.istZugMoeglichFuerSpringer(3, 3, 0, 0,statusField.getFieldArray());
-        boolean zug3Moeglich = moveable.istZugMoeglichFuerSpringer(3, 3, 6, 0,statusField.getFieldArray());
-        boolean zug4Moeglich = moveable.istZugMoeglichFuerSpringer(3, 3, 0, 6,statusField.getFieldArray());
-        boolean zug5Moeglich = moveable.istZugMoeglichFuerSpringer(4, 4, 0, 5,statusField.getFieldArray());
-        boolean zug6Moeglich = moveable.istZugMoeglichFuerSpringer(4, 4, 7, 7,statusField.getFieldArray());
-        boolean zug7Moeglich = moveable.istZugMoeglichFuerSpringer(4, 4, 7, 1,statusField.getFieldArray());
-        boolean zug8Moeglich = moveable.istZugMoeglichFuerSpringer(4, 4, 1, 7,statusField.getFieldArray());
+        boolean zug1Moeglich = moveable.istZugMoeglichFuerLaeufer(3, 3, 6, 6, statusField.getFieldArray());
+        boolean zug2Moeglich = moveable.istZugMoeglichFuerLaeufer(3, 3, 0, 0, statusField.getFieldArray());
+        boolean zug3Moeglich = moveable.istZugMoeglichFuerLaeufer(3, 3, 6, 0, statusField.getFieldArray());
+        boolean zug4Moeglich = moveable.istZugMoeglichFuerLaeufer(3, 3, 0, 6, statusField.getFieldArray());
+        boolean zug5Moeglich = moveable.istZugMoeglichFuerLaeufer(4, 4, 0, 5, statusField.getFieldArray());
+        boolean zug6Moeglich = moveable.istZugMoeglichFuerLaeufer(4, 4, 7, 7, statusField.getFieldArray());
+        boolean zug7Moeglich = moveable.istZugMoeglichFuerLaeufer(4, 4, 7, 1, statusField.getFieldArray());
+        boolean zug8Moeglich = moveable.istZugMoeglichFuerLaeufer(4, 4, 1, 7, statusField.getFieldArray());
 
-        boolean move1IsValidMove = moveable.istZugMoeglichFuerSpringer(3, 3, 6, 6, statusField.getFieldArray());
-        boolean move2IsValidMove = moveable.istZugMoeglichFuerSpringer(3, 3, 0, 0, statusField.getFieldArray());
-        boolean move3IsValidMove = moveable.istZugMoeglichFuerSpringer(3, 3, 6, 0, statusField.getFieldArray());
-        boolean move4IsValidMove = moveable.istZugMoeglichFuerSpringer(3, 3, 0, 6, statusField.getFieldArray());
-        boolean move5IsNotValidMove = moveable.istZugMoeglichFuerSpringer(7, 7, 5, 5, statusField.getFieldArray());
+        boolean move1IsValidMove = moveable.istZugMoeglichFuerLaeufer(3, 3, 6, 6, statusField.getFieldArray());
+        boolean move2IsValidMove = moveable.istZugMoeglichFuerLaeufer(3, 3, 0, 0, statusField.getFieldArray());
+        boolean move3IsValidMove = moveable.istZugMoeglichFuerLaeufer(3, 3, 6, 0, statusField.getFieldArray());
+        boolean move4IsValidMove = moveable.istZugMoeglichFuerLaeufer(3, 3, 0, 6, statusField.getFieldArray());
+        boolean move5IsNotValidMove = moveable.istZugMoeglichFuerLaeufer(7, 7, 5, 5, statusField.getFieldArray());
 
         assertThat(move1IsValidMove).isTrue();
         assertThat(move2IsValidMove).isTrue();
@@ -47,23 +47,23 @@ public class LaeuferTest {
     }
 
     @Test
-    void test_springerSchlaegtGegner() {
+    void testLaeuferSchlaegtGegner() {
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
         field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
-        statusField.setFieldArray(6, 6, "b");//Victim
-        statusField.setFieldArray(1, 1, "B");//Victim
+        statusField.setFieldArray(6, 6, "b");
+        statusField.setFieldArray(1, 1, "B");
         Laeufer moveable = new Laeufer();
-        boolean springer1SchlaegtGegner = moveable.springerSchlaegtGegner(6,6,1, statusField.getFieldArray());
-        boolean springer2SchlaegtGegner = moveable.springerSchlaegtGegner(1,1,1,statusField.getFieldArray());
+        boolean springer1SchlaegtGegner = moveable.laeuferSchlaegtGegner(6, 6, 1, statusField.getFieldArray());
+        boolean springer2SchlaegtGegner = moveable.laeuferSchlaegtGegner(1, 1, 1, statusField.getFieldArray());
 
         Chessfield chessfield = new Chessfield();
         ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
         chessfield.setDefaultValue();
         chessfield.setDisplayedFieldToFieldStatus(chessfieldStatus);
-        chessfieldStatus.setFieldArray(0,0,"L");
-        boolean springer3SchlaegtGegner = moveable.springerSchlaegtGegner(1,1,1,chessfieldStatus.getFieldArray());
+        chessfieldStatus.setFieldArray(0, 0, "L");
+        boolean springer3SchlaegtGegner = moveable.laeuferSchlaegtGegner(1, 1, 1, chessfieldStatus.getFieldArray());
 
         assertThat(springer1SchlaegtGegner).isTrue();
         assertThat(springer2SchlaegtGegner).isFalse();
@@ -71,39 +71,41 @@ public class LaeuferTest {
     }//[y=row][x=column]
 
     @Test
-    void test_isMoveValidMove(){
+    void test_isMoveValidMove() {
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
         field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
         Laeufer moveable = new Laeufer();
 
-        boolean isValide = moveable.isMoveValidMove(statusField.getFieldArray(),2,0,1,3, 1);
+        boolean isValide = moveable.isMoveValidMove(statusField.getFieldArray(), 2, 0, 1, 3, 1);
+
         field.setDefaultValue();
         field.setDisplayedFieldToFieldStatus(statusField);
-        statusField.setFieldArray(2,0,"L");
-        statusField.setFieldArray(1,3,"l");
-        boolean isValide2 = moveable.isMoveValidMove(statusField.getFieldArray(),2,0,1,3, 1);
+        statusField.setFieldArray(2, 0, "L");
+        statusField.setFieldArray(1, 3, "l");
+
+        boolean isValide2 = moveable.isMoveValidMove(statusField.getFieldArray(), 2, 0, 1, 3, 1);
 
         assertThat(isValide).isTrue();
         assertThat(isValide2).isTrue();
     }
 
     @Test
-    void testSpringerGetPlayer(){
-        WegFrei springer = new Laeufer();    // 0= not assined, 1= player 1, 2= player 2
+    void testSpringerGetPlayer() {
+        WegFrei springer = new Laeufer();
         assertThat(springer.getPlayer()).isEqualTo(0);
     }
 
     @Test
-    void testSpringerSetPlayer(){
+    void testSpringerSetPlayer() {
         WegFrei springer = new Laeufer();
         springer.setPlayer(1);
         assertThat(springer.getPlayer()).isEqualTo(1);
     }
 
     @Test
-    void testSpringerGetBezeichnung(){
+    void testSpringerGetBezeichnung() {
         WegFrei springer = new Laeufer();
         assertThat(springer.getBezeichnung()).isEqualTo("L");
     }
