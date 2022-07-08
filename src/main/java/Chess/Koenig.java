@@ -1,57 +1,51 @@
 package Chess;
 
 public class Koenig implements WegFrei {
-    private int player =0;
+    private int player = 0;
+    private String bezeichnung = "K";
 
-    public boolean istZugMoeglichFürKoenig(int rowOld, int columnOld, int rowNew, int columnNew, int activePlayer, String fieldWithFigure[][]) {
-        if (activePlayer==1 && isMoveValidMove(fieldWithFigure, columnOld,  rowOld,  rowNew,  columnNew,1) &&
-                fieldWithFigure[rowNew][columnNew].equals(" ") || koenigSchlaegtGegner(rowNew, columnNew, 1, fieldWithFigure)) {
-            return true;}
-        else {
-            if (activePlayer==2 && isMoveValidMove(fieldWithFigure, columnOld,  rowOld,  rowNew,  columnNew,2) &&
-                    fieldWithFigure[rowNew][columnNew].equals(" ") || koenigSchlaegtGegner(rowNew, columnNew, 2, fieldWithFigure)) {
-                return true;}
-        }
-        return false;
+    public boolean istZugMoeglichFuerKoenig(int rowOld, int columnOld, int rowNew, int columnNew) {
+        return ((rowNew == rowOld + 1 && columnNew == columnOld) || (rowNew == rowOld - 1 && columnNew == columnOld) || (columnNew == columnOld + 1 && rowNew == rowOld) || (columnNew == columnOld - 1 && rowNew == rowOld));
     }
 
 
-    public boolean koenigSchlaegtGegner( int rowNew, int columnNew, int activePlayer, String[][] fieldWithFigure) {
+    public boolean koenigSchlaegtGegner(int rowNew, int columnNew, int activePlayer, String[][] fieldWithFigure) {
         CheckIfMoveable checkIfMoveable = new CheckIfMoveable();
-        if (fieldWithFigure[rowNew][columnNew].equals(" ")) {return false;}
+        if (fieldWithFigure[rowNew][columnNew].equals(" ")) {
+            return false;
+        }
         if (activePlayer == 1) {
             if (!checkIfMoveable.isUpper(fieldWithFigure[rowNew][columnNew])) {
-                //sind gr0ße Buchstaben
                 return true;
             }
         }
         if (activePlayer == 2) {
-            if (checkIfMoveable.isUpper(fieldWithFigure[rowNew][columnNew])) {
-                //sind kleine Buchstaben
-                //sind kleine Buchstaben
-                //sind kleine Buchstaben
-                //sind kleine Buchstaben
-                return true;
-            }
+            return checkIfMoveable.isUpper(fieldWithFigure[rowNew][columnNew]);
         }
         return false;
     }
 
     @Override
-    public boolean isMoveValidMove(String [][] fieldWithFigure, int columnOld, int rowOld, int rowNew, int columnNew, int activePlayer) {
-        if ((rowNew == rowOld + 1 || rowNew== rowOld -1) && (columnNew == columnOld + 1 || columnNew == columnOld - 1)) {
+    public boolean isMoveValidMove(String[][] fieldWithFigure, int columnOld, int rowOld, int rowNew, int columnNew, int activePlayer) {
+        if ((activePlayer == 1 && istZugMoeglichFuerKoenig(rowOld, columnOld, rowNew, columnNew) && (fieldWithFigure[rowNew][columnNew].equals(" ")) || (koenigSchlaegtGegner(rowNew, columnNew, 1, fieldWithFigure)))) {
             return true;
+        } else {
+            return activePlayer == 2 && istZugMoeglichFuerKoenig(rowOld, rowNew, columnNew, columnOld) && fieldWithFigure[rowNew][columnNew].equals(" ") || koenigSchlaegtGegner(rowNew, columnNew, 2, fieldWithFigure);
         }
-        return false;
     }
 
     @Override
-    public void setPlayer(int player){
+    public void setPlayer(int player) {
         this.player = player;
     }
 
     @Override
-    public int getPlayer(){
+    public int getPlayer() {
         return this.player;
+    }
+
+    @Override
+    public String getBezeichnung() {
+        return bezeichnung;
     }
 }
