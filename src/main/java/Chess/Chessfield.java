@@ -7,10 +7,6 @@ public class Chessfield {
     private final String[][] fieldWithFigure = new String[8][8];
     private final WegFrei[][] figuresOnField = new WegFrei[8][8];
     private int activePlayer = 1;
-    private int row, rowNew;
-    private String column, columnNew;
-
-    private ChessfieldStatus statusField = new ChessfieldStatus();
 
     public void setupFigureArrays() {
         setDefaultValue();
@@ -38,10 +34,10 @@ public class Chessfield {
 
         figuresOnField[0][0] = new Turm();
         figuresOnField[0][1] = new Pferd();
-        figuresOnField[0][2] = new Springer();
+        figuresOnField[0][2] = new Laeufer();
         figuresOnField[0][3] = new Dame();
         figuresOnField[0][4] = new Koenig();
-        figuresOnField[0][5] = new Springer();
+        figuresOnField[0][5] = new Laeufer();
         figuresOnField[0][6] = new Pferd();
         figuresOnField[0][7] = new Turm();
 
@@ -56,7 +52,7 @@ public class Chessfield {
 
         for (int i = 0; i < 8; i++) {
             fieldWithFigure[1][i] = "B";
-            figuresOnField[1][i] =  new Bauer();
+            figuresOnField[1][i] = new Bauer();
             figuresOnField[1][i].setPlayer(1);
         }
     }
@@ -73,10 +69,10 @@ public class Chessfield {
 
         figuresOnField[7][0] = new Turm();
         figuresOnField[7][1] = new Pferd();
-        figuresOnField[7][2] = new Springer();
+        figuresOnField[7][2] = new Laeufer();
         figuresOnField[7][3] = new Dame();
         figuresOnField[7][4] = new Koenig();
-        figuresOnField[7][5] = new Springer();
+        figuresOnField[7][5] = new Laeufer();
         figuresOnField[7][6] = new Pferd();
         figuresOnField[7][7] = new Turm();
 
@@ -96,12 +92,13 @@ public class Chessfield {
         }
     }
 
-    public PrintStream displayFieldWithFigures() {
+    public PrintStream displayFieldWithFigures(ChessfieldStatus chessfieldStatus) {
+        String[][] fieldWithFigures = chessfieldStatus.getFieldArray();
         System.out.println();
         System.out.println(" A  B  C  D  E  F  G  H");
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                System.out.print("|" + fieldWithFigure[i][j] + "|");
+                System.out.print("|" + fieldWithFigures[i][j] + "|");
             }
             int sidenote = i + 1;
             System.out.print(" " + sidenote);
@@ -117,8 +114,8 @@ public class Chessfield {
     public void setDisplayedFieldToFieldStatus(ChessfieldStatus statusField) {  //Only Chessfield //Aktualisierung des Statusfields
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                statusField.setFieldArray(i, j,this.fieldWithFigure[i][j]);
-                statusField.setWegFreiArray(i,j,this.figuresOnField[i][j]);
+                statusField.setFieldArray(i, j, this.fieldWithFigure[i][j]);
+                statusField.setWegFreiArray(i, j, this.figuresOnField[i][j]);
             }
         }
     }
@@ -126,7 +123,7 @@ public class Chessfield {
     public int readInValideRow() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Geben sie bitte eine Zahl zwischen 1 und 8 für die gewünschte Spalte ein: ");
-        row = scan.nextInt();
+        int row = scan.nextInt();
         boolean isValide = (row > 0 && row < 9);
         while (!isValide) {
             System.out.println("Geben sie bitte eine Zahl zwischen 1 und 8 für die gewünschte Spalte ein: ");
@@ -140,7 +137,7 @@ public class Chessfield {
     public String readInValideColumn() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Geben Sie Bitte eine Buchstaben von A bis H für die Zeile ein: ");
-        column = scan.nextLine();
+        String column = scan.nextLine();
         String abgleich = "ABCDEFGH";
         boolean isValid = abgleich.contains(column);
         while (!isValid) {
@@ -156,7 +153,7 @@ public class Chessfield {
     public int readInValideDepartureRow() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Geben sie bitte eine Zahl zwischen 1 und 8 für die gewünschte Ziel-Spalte ein: ");
-        rowNew = scan.nextInt();
+        int rowNew = scan.nextInt();
         boolean isValide = (rowNew > 0 && rowNew < 9);
         while (!isValide) {
             System.out.println("Geben sie bitte eine Zahl zwischen 1 und 8 für die gewünschte Ziel-Spalte ein: ");
@@ -169,9 +166,8 @@ public class Chessfield {
 
     public String readInValideDepartureColumn() {
         Scanner scan = new Scanner(System.in);
-        System.out.println("Spieler " + activePlayer + " ist am Zug.");
         System.out.println("Geben Sie Bitte eine Buchstaben von A bis H für die Ziel-Zeile ein: ");
-        columnNew = scan.nextLine();
+        String columnNew = scan.nextLine();
         String abgleich = "ABCDEFGH";
         boolean isValid = abgleich.contains(columnNew);
         while (!isValid) {
@@ -181,39 +177,55 @@ public class Chessfield {
                 isValid = true;
             }
         }
+
         return columnNew;
     }
 
-   //  public void fullfillMoveAndNextPlayersTurn() {    //Test Needed + checkIfMoveable implementation
-   //      CheckIfMoveable checkIfMoveable = new CheckIfMoveable();
+    public void fullfillMoveAndNextPlayersTurn(ChessfieldStatus statusField) {
+        CheckIfMoveable checkIfMoveable = new CheckIfMoveable();
 
-   //      boolean figureBelongsToPlayer = checkIfMoveable.checkIfKoodinatesBelongToActivePlayer(readInValideColumn(), readInValideRow(), activePlayer, statusField);
-   //      while (!figureBelongsToPlayer) {  //Figur zu laufen auswählen
-   //          System.out.println("Diese Figur gehört Spieler " + getNotActivePlayer(activePlayer) + ". Sie können nur mit ihren eigenen Figuren Laufen");
-   //          figureBelongsToPlayer = checkIfMoveable.checkIfKoodinatesBelongToActivePlayer(readInValideColumn(), readInValideRow(), activePlayer, statusField);
-   //      }
+        System.out.println("Spieler " + activePlayer + " ist am Zug.");
 
-   //      boolean moveCanBeMade = checkIfMoveable.moveCanBeMade(row, column, readInValideDepartureRow(), readInValideDepartureColumn(), statusField, this.activePlayer);
-   //      while (!moveCanBeMade) {
-   //          System.out.println("Gewünschter Zug kann nicht ausgeführt werden!");
-   //          moveCanBeMade = checkIfMoveable.moveCanBeMade(row, column, readInValideDepartureRow(), readInValideDepartureColumn(), statusField, this.activePlayer);
-   //      }
+        String column = readInValideColumn();
+        int row = readInValideRow();
 
-   //      setDepartureFieldAndClearOldField();
-   //      setDisplayedFieldToFieldStatus(statusField);
-   //      displayFieldWithFigures();
-   //      switchActivePlayer(activePlayer);
-   //  }
+        while (checkIfPositionNull(column, row, statusField)) {
+            column = readInValideColumn();
+            row = readInValideRow();
+        }
 
-   public void setDepartureFieldAndClearOldField() { //Test needed **NextToImplement**
-       CheckIfMoveable checkIfMoveable = new CheckIfMoveable();
-       int columnInt = checkIfMoveable.convertLetterToInteger(column);
-       int columnNewInt = checkIfMoveable.convertLetterToInteger(columnNew);
-       String figure = fieldWithFigure[row][columnInt];
-       fieldWithFigure[row][columnInt] = " ";  //Delet Old Position
-       fieldWithFigure[rowNew][columnNewInt] = figure; //Set New Position
-       setDisplayedFieldToFieldStatus(statusField);
-   }
+        boolean figureBelongsToPlayer = checkIfMoveable.checkIfKoodinatesBelongToActivePlayer(column, row, activePlayer, statusField);
+        while (!figureBelongsToPlayer) {  //Figur zu laufen auswählen
+            System.out.println("Diese Figur gehört Spieler " + getNotActivePlayer(activePlayer) + ". Sie können nur mit ihren eigenen Figuren Laufen");
+            figureBelongsToPlayer = checkIfMoveable.checkIfKoodinatesBelongToActivePlayer(readInValideColumn(), readInValideRow(), activePlayer, statusField);
+        }
+
+        String departureColumn = readInValideDepartureColumn();
+        int departureRow = readInValideDepartureRow();
+
+        while (checkIfPositionNull(column, row, statusField)) {
+            departureColumn = readInValideDepartureColumn();
+            departureRow = readInValideDepartureRow();
+        }
+
+        boolean moveCanBeMade = checkIfMoveable.moveCanBeMade(row, column, departureRow, departureColumn, statusField, this.activePlayer);
+        while (!moveCanBeMade) {
+            System.out.println("Gewünschter Zug kann nicht ausgeführt werden!");
+            moveCanBeMade = checkIfMoveable.moveCanBeMade(row, column, readInValideDepartureRow(), readInValideDepartureColumn(), statusField, this.activePlayer);
+        }
+
+        setDepartureFieldAndClearOldField(row, departureRow, column, departureColumn, statusField);
+        displayFieldWithFigures(statusField);
+        switchActivePlayer(this.activePlayer);
+    }
+
+    public void setDepartureFieldAndClearOldField(int row, int rowNew, String column, String columnNew, ChessfieldStatus chessfieldStatus) { //Test needed **NextToImplement**
+        CheckIfMoveable checkIfMoveable = new CheckIfMoveable();
+        String[][] figures = chessfieldStatus.getFieldArray();
+        String figure = figures[row][checkIfMoveable.convertLetterToInteger(column)];
+        chessfieldStatus.setFieldArray(row, checkIfMoveable.convertLetterToInteger(column), " ");
+        chessfieldStatus.setFieldArray(rowNew, checkIfMoveable.convertLetterToInteger(columnNew), figure);
+    }
 
     public boolean gameNotOver() {
         int count = 0;
@@ -230,26 +242,32 @@ public class Chessfield {
         return (count == 2);
     }
 
-    public int getNotActivePlayer(int activePlayer){
-        if(activePlayer == 1){
+    public int getNotActivePlayer(int activePlayer) {
+        if (activePlayer == 1) {
             return 2;
         }
         return 1;
     }
 
-    public ChessfieldStatus getStatusField() {
-        return statusField;
-    }
-
-    public void switchActivePlayer(int activePlayer){
-        if (activePlayer == 1) {
-                      this.activePlayer = 2;
-                  } else {
-                      this.activePlayer = 1;
-                  }
+    public void switchActivePlayer(int activePlayer) {
+        if (activePlayer == 2) {
+            this.activePlayer = 1;
+        } else {
+            this.activePlayer = 2;
+        }
     }
 
     public int getActivePlayer() {
         return activePlayer;
     }
+
+    public boolean checkIfPositionNull(String column, int row, ChessfieldStatus chessfieldStatus) {
+        CheckIfMoveable checkIfMoveable = new CheckIfMoveable();
+        return (chessfieldStatus.getFieldArray()[row][checkIfMoveable.convertLetterToInteger(column)].equals(" "));
+    }
+
+//    public PrintStream wegFreiToDisplayableFormat(WegFrei[][] figures){
+//
+//        return System.out;
+//    }
 }

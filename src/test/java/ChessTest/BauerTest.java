@@ -1,9 +1,6 @@
 package ChessTest;
 
-import Chess.Chessfield;
-import Chess.ChessfieldStatus;
-import Chess.Bauer;
-import Chess.WegFrei;
+import Chess.*;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -11,22 +8,24 @@ import static org.assertj.core.api.AssertionsForClassTypes.within;
 
 public class BauerTest {
     @Test
-    void test_istZugMoeglichFürBauer() {
+    void test_istZugMoeglichFuerBauer() {
         Chessfield field = new Chessfield();
         ChessfieldStatus statusField = new ChessfieldStatus();
+        CheckIfMoveable checkIfMoveable = new CheckIfMoveable();
+
         field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
-        Bauer moveable = new Bauer();
-        boolean zug1Moeglich = moveable.isMoveValidMove(field.getFieldWithFigure(),1, 1, 2, 1, 1);
-        boolean zug3Moeglich = moveable.isMoveValidMove(field.getFieldWithFigure(),1, 6, 5, 1, 2);
-        boolean zug2Moeglich = moveable.isMoveValidMove( field.getFieldWithFigure(),2, 1, 3, 2, 1);
-        boolean zug4Moeglich = moveable.isMoveValidMove(field.getFieldWithFigure(),2, 6, 4, 2, 2);
+        WegFrei moveable = new Bauer();
+
+        boolean zug1Moeglich = moveable.isMoveValidMove(statusField.getFieldArray(), checkIfMoveable.convertLetterToInteger("A"), 1, 3, checkIfMoveable.convertLetterToInteger("A"), 1);
+        boolean zug3Moeglich = moveable.isMoveValidMove(statusField.getFieldArray(), checkIfMoveable.convertLetterToInteger("A"), 6, 5, checkIfMoveable.convertLetterToInteger("A"), 2);
+        boolean zug2Moeglich = moveable.isMoveValidMove(statusField.getFieldArray(), checkIfMoveable.convertLetterToInteger("C"), 1, 3, checkIfMoveable.convertLetterToInteger("C"), 1);
+        boolean zug4Moeglich = moveable.isMoveValidMove(statusField.getFieldArray(), checkIfMoveable.convertLetterToInteger("C"), 6, 4, checkIfMoveable.convertLetterToInteger("C"), 2);
 
         assertThat(zug1Moeglich).isTrue();
         assertThat(zug2Moeglich).isTrue();
         assertThat(zug3Moeglich).isTrue();
         assertThat(zug4Moeglich).isTrue();
-
     }
 
     @Test
@@ -49,32 +48,45 @@ public class BauerTest {
         ChessfieldStatus statusField = new ChessfieldStatus();
         field.setupFigureArrays();
         field.setDisplayedFieldToFieldStatus(statusField);
-        statusField.setFieldArray(3, 3, "b");//Victim
-        statusField.setFieldArray(5, 5, "B");//Victim
-        Bauer moveable = new Bauer();
-        boolean bauer1SchlaegtGegner = moveable.isMoveValidMove(field.getFieldWithFigure(),2, 2, 3, 3, 1);
-        boolean bauer2SchlaegtGegner = moveable.isMoveValidMove(field.getFieldWithFigure(),6, 6, 5, 5, 2);
+        statusField.setFieldArray(3, 3, "b");
+        statusField.setFieldArray(5, 5, "B");
+        WegFrei moveable = new Bauer();
+        boolean bauer1SchlaegtGegner = moveable.isMoveValidMove(statusField.getFieldArray(), 2, 2, 3, 3, 1);
+        boolean bauer2SchlaegtGegner = moveable.isMoveValidMove(statusField.getFieldArray(), 6, 6, 5, 5, 2);
+
+        statusField.setFieldArray(3, 3, " ");
+        statusField.setFieldArray(5, 5, " ");
+
+        boolean bauer1SchleagtNicht = moveable.isMoveValidMove(statusField.getFieldArray(), 2, 2, 3, 3, 1);
+        boolean bauer2SchleagtNicht = moveable.isMoveValidMove(statusField.getFieldArray(), 6, 6, 5, 5, 2);
+
+        statusField.setFieldArray(3, 2, "B");
+
+        boolean bauer3SchleagtNicht = moveable.isMoveValidMove(statusField.getFieldArray(), 2, 2, 3, 2, 1);
 
         assertThat(bauer1SchlaegtGegner).isTrue();
         assertThat(bauer2SchlaegtGegner).isTrue();
-    }//[y=row][x=column]
+        assertThat(bauer1SchleagtNicht).isFalse();
+        assertThat(bauer2SchleagtNicht).isFalse();
+        assertThat(bauer3SchleagtNicht).isFalse();
+    }
 
     @Test
-    void testBauerGetPlayer(){
-        WegFrei bauer = new Bauer();    // 0= not assined, 1= player 1, 2= player 2
+    void testBauerGetPlayer() {
+        WegFrei bauer = new Bauer();
         assertThat(bauer.getPlayer()).isEqualTo(0);
     }
 
     @Test
-    void testBauerSetPlayer(){
+    void testBauerSetPlayer() {
         WegFrei bauer = new Bauer();
         bauer.setPlayer(1);
         assertThat(bauer.getPlayer()).isEqualTo(1);
     }
+
+    @Test
+    void testBauerGetBezeichnung() {
+        WegFrei bauer = new Bauer();
+        assertThat(bauer.getBezeichnung()).isEqualTo("B");
+    }
 }
-//expected true but is false line 45
-/*
-kleine Buchstaben unten, große sind oben
-spieler 1== groß, move== nach unten +1
-spieler 2== klein, move== nach oben -1
- */

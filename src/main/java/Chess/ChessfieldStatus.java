@@ -2,18 +2,21 @@ package Chess;
 
 public class ChessfieldStatus {
     private final String[][] field = new String[8][8];
-    private WegFrei [][] fieldOfFigures = new WegFrei[8][8];    //Filed with figures
+    private final WegFrei[][] fieldOfFigures = new WegFrei[8][8];
 
-    public WegFrei[][] getWegFreiArray(){return this.fieldOfFigures;}   //Ersetzen des field array komplett !
+    public WegFrei[][] getWegFreiArray() {
+        return this.fieldOfFigures;
+    }   //Should replace the fieldOfFigures in the whole project, but time missing!
 
-    public void setWegFreiArray(int xPos, int yPos, WegFrei figure){
-        fieldOfFigures[xPos][yPos]=figure;
+    public void setWegFreiArray(int xPos, int yPos, WegFrei figure) {
+        fieldOfFigures[xPos][yPos] = figure;
     }
+
     public String[][] getFieldArray() {
         return this.field;
     }
 
-    public void setFieldArray(int xPos, int yPos, String figure) {
+    public void setFieldArray(int yPos, int xPos, String figure) {
         field[yPos][xPos] = figure;
     }
 }

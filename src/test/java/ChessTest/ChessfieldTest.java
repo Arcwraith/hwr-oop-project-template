@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.not;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class ChessfieldTest {
@@ -33,17 +32,14 @@ public class ChessfieldTest {
 
         assertThat(emptyField).isNotEqualTo(setupedField);
         assertThat(second).isNotEqualTo(emptyArray);
-        assertThat(setupedField[0][0].getPlayer()).isEqualTo(1);
-        assertThat(setupedField[7][7].getPlayer()).isEqualTo(2);
-        assertThat(setupedField[5][5]).isEqualTo(null);
     }
 
     @Test
     void testOfDisplayFieldWithFiguresAndSetDisplayFieldToStatusField() {
         Chessfield chessfield = new Chessfield();
         ChessfieldStatus status = new ChessfieldStatus();
-        //Chessfield chessfield = new Chessfield();
-        PrintStream ps = chessfield.displayFieldWithFigures();
+
+        PrintStream ps = chessfield.displayFieldWithFigures(status);
         System.out.println("\n" + " A  B  C  D  E  F  G  H\n" + "|T||S||L||D||K||L||S||T| 1\n" + "|B||B||B||B||B||B||B||B| 2\n" + "| || || || || || || || | 3\n" + "| || || || || || || || | 4\n" + "| || || || || || || || | 5\n" + "| || || || || || || || | 6\n" + "|b||b||b||b||b||b||b||b| 7\n" + "|t||s||l||k||d||l||s||t| 8");
         PrintStream compare = System.out;
         assertThat(ps).isEqualTo(compare);
@@ -193,9 +189,10 @@ public class ChessfieldTest {
     void test_GameNotOver() {
         Chessfield chessfield = new Chessfield();
         Chessfield field = new Chessfield();
+        ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
 
         chessfield.setupFigureArrays();
-        chessfield.displayFieldWithFigures();
+        chessfield.displayFieldWithFigures(chessfieldStatus);
 
         field.setDefaultValue();
 
@@ -224,15 +221,16 @@ public class ChessfieldTest {
         String[][] fieldOld = statusField.getFieldArray();
 
         String a = "A";
-        String row = "1";
-        String rowDeparture = "2";
+        String row = "2";
+        String rowDeparture = "3";
 
         ByteArrayInputStream stream1 = new ByteArrayInputStream(a.getBytes());
         ByteArrayInputStream stream2 = new ByteArrayInputStream(row.getBytes());
         ByteArrayInputStream stream3 = new ByteArrayInputStream(rowDeparture.getBytes());
 
         System.setIn(stream2);
-        field.readInValideRow();
+        int valideRow = field.readInValideRow();
+
         try {
             System.in.reset();
         } catch (IOException e) {
@@ -241,7 +239,8 @@ public class ChessfieldTest {
 
 
         System.setIn(stream1);
-        field.readInValideColumn();
+        String valideColumn = field.readInValideColumn();
+
         try {
             System.in.reset();
         } catch (IOException e) {
@@ -250,7 +249,8 @@ public class ChessfieldTest {
 
 
         System.setIn(stream3);
-        field.readInValideDepartureRow();
+        int valideDepartureRow = field.readInValideDepartureRow();
+
         try {
             System.in.reset();
         } catch (IOException e) {
@@ -258,22 +258,20 @@ public class ChessfieldTest {
         }
 
         System.setIn(stream1);
-        field.readInValideDepartureColumn();
+        String valideDepartureColumn = field.readInValideDepartureColumn();
+
         try {
             System.in.reset();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        field.setDepartureFieldAndClearOldField();
-        String[][] fieldNew = field.getStatusField().getFieldArray();
-        assertThat(fieldNew).isNotEqualTo(fieldOld);
-    }
+        ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
 
-    @Test
-    void test_GetStatusField() {
-        Chessfield field = new Chessfield();
-        assertThat(field.getStatusField()).isInstanceOf(ChessfieldStatus.class);
+        field.setDepartureFieldAndClearOldField(valideRow, valideDepartureRow, valideColumn, valideDepartureColumn, chessfieldStatus);
+        String[][] fieldNew = chessfieldStatus.getFieldArray();
+
+        assertThat(fieldNew).isNotEqualTo(fieldOld);
     }
 
     @ParameterizedTest
@@ -286,59 +284,65 @@ public class ChessfieldTest {
         assertThat(notActivePlayer).isNotEqualTo(nowActivePlayer);
     }
 
-  // @Test
-  // void test_FullfillMoveAndNextPlayersTurn() {       //Test can be implemented when figures are finished
-  //     Chessfield field = new Chessfield();
-  //     ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
-  //     field.setupFigureArray();
-  //     field.setDisplayedFieldToFieldStatus(chessfieldStatus);
+    // @Test
+    // void test_FullfillMoveAndNextPlayersTurn() {       //Test doesnt work
+    //     Chessfield field = new Chessfield();
+    //     ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
+    //     field.setupFigureArrays();
+    //     field.setDisplayedFieldToFieldStatus(chessfieldStatus);
 
-  //     int notActivePlayer = field.getNotActivePlayer(1);
-  //     String[][] fieldBeforeFirstTurn = chessfieldStatus.getFieldArray();
-  //     //field.fullfillMoveAndNextPlayersTurn();       //Needs  CheckIfMoveable.moveCanBeMade() to be finished
+    //     int notActivePlayer = field.getNotActivePlayer(1);
+    //     String[][] fieldBeforeFirstTurn = chessfieldStatus.getFieldArray();
 
-  //     String a = "A";
-  //     String row = "1";
-  //     String rowDeparture = "2";
+    //     String a = "A";
+    //     String row = "1";
+    //     String rowDeparture = "2";
 
-  //     ByteArrayInputStream stream1 = new ByteArrayInputStream(a.getBytes());
-  //     ByteArrayInputStream stream2 = new ByteArrayInputStream(row.getBytes());
-  //     ByteArrayInputStream stream3 = new ByteArrayInputStream(rowDeparture.getBytes());
+    //     ByteArrayInputStream stream1 = new ByteArrayInputStream(a.getBytes());
+    //     ByteArrayInputStream stream2 = new ByteArrayInputStream(row.getBytes());
+    //     ByteArrayInputStream stream3 = new ByteArrayInputStream(rowDeparture.getBytes());
 
-  //     System.setIn(stream2);
-  //     try {
-  //         System.in.reset();
-  //     } catch (IOException e) {
-  //         throw new RuntimeException(e);
-  //     }
-  //     System.setIn(stream1);
-  //     try {
-  //         System.in.reset();
-  //     } catch (IOException e) {
-  //         throw new RuntimeException(e);
-  //     }
-  //     System.setIn(stream3);
-  //     try {
-  //         System.in.reset();
-  //     } catch (IOException e) {
-  //         throw new RuntimeException(e);
-  //     }
-  //     System.setIn(stream1);
-  //     try {
-  //         System.in.reset();
-  //     } catch (IOException e) {
-  //         throw new RuntimeException(e);
-  //     }
-  //     //Player switch
 
-  //     String[][] fieldAfterFirstTurn = chessfieldStatus.getFieldArray();
+    //     field.fullfillMoveAndNextPlayersTurn(chessfieldStatus);
 
-  //     assertThat(fieldBeforeFirstTurn).isNotEqualTo(fieldAfterFirstTurn);
-  //     assertThat(notActivePlayer).isEqualTo(field.getNotActivePlayer(2));
-  // }
+    //     //Read in starting row and column
+    //     System.setIn(stream2);
+    //     try {
+    //         System.in.reset();
+    //     } catch (IOException e) {
+    //         throw new RuntimeException(e);
+    //     }
+    //     System.setIn(stream1);
+    //     try {
+    //         System.in.reset();
+    //     } catch (IOException e) {
+    //         throw new RuntimeException(e);
+    //     }
+
+
+    //     //Read in departure row and column
+    //     System.setIn(stream3);
+    //     try {
+    //         System.in.reset();
+    //     } catch (IOException e) {
+    //         throw new RuntimeException(e);
+    //     }
+    //     System.setIn(stream1);
+    //     try {
+    //         System.in.reset();
+    //     } catch (IOException e) {
+    //         throw new RuntimeException(e);
+    //     }
+    //
+    //     //Player switch
+    //     String[][] fieldAfterFirstTurn = chessfieldStatus.getFieldArray();
+
+    //     assertThat(fieldBeforeFirstTurn).isNotEqualTo(fieldAfterFirstTurn);
+    //     assertThat(notActivePlayer).isEqualTo(field.getNotActivePlayer(2));
+    // }
 
     @Test
-    void testActivePlayer(){
+    void testActivePlayer() {
         Chessfield chessfield = new Chessfield();
         int activePlayer = chessfield.getActivePlayer();
         assertThat(activePlayer).isEqualTo(1);
@@ -347,4 +351,47 @@ public class ChessfieldTest {
         activePlayer = chessfield.getActivePlayer();
         assertThat(activePlayer).isEqualTo(2);
     }
+
+    @Test
+    void testCheckIfPositionNotNull() {
+        Chessfield chessfield = new Chessfield();
+        ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
+        chessfield.setupFigureArrays();
+        chessfield.setDisplayedFieldToFieldStatus(chessfieldStatus);
+        boolean notNull = chessfield.checkIfPositionNull("A", 1, chessfieldStatus);
+        boolean isNull = chessfield.checkIfPositionNull("A", 4, chessfieldStatus);
+
+        assertThat(isNull).isTrue();
+        assertThat(notNull).isFalse();
+    }
+
+    // @Test
+    // void manualTestFullfillMoveAndNextPlayersTurn(){    //Needs to be manually executed. Input: A;2;A;3; --> bauer makes move
+    //     Chessfield chessfield = new Chessfield();
+    //     ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
+    //     int activePlayer = chessfield.getActivePlayer();
+
+    //     chessfield.setupFigureArrays();
+    //     chessfield.setDisplayedFieldToFieldStatus(chessfieldStatus);
+    //     String[][] figures = chessfieldStatus.getFieldArray();
+
+    //     chessfield.fullfillMoveAndNextPlayersTurn(chessfieldStatus);
+
+    //     assertThat(figures).isNotEqualTo(chessfieldStatus.getWegFreiArray());
+    //     //assertThat(activePlayer).isEqualTo(chessfield.getActivePlayer());
+    // }
+
+    //   @Test
+    //  void testWegFreiToDisplayableFormat(){
+
+    //      Chessfield chessfield = new Chessfield();
+    //      ChessfieldStatus chessfieldStatus = new ChessfieldStatus();
+
+    //      chessfield.setupFigureArrays();
+    //      chessfield.setDisplayedFieldToFieldStatus(chessfieldStatus);
+    //      WegFrei[][]figuresSetuped = chessfieldStatus.getWegFreiArray();
+    //      PrintStream out = chessfield.wegFreiToDisplayableFormat(figuresSetuped);
+
+
+    //  }
 }
